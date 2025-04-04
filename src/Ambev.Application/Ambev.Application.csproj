@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Ambev.Domain.Common\Ambev.Domain.Common.csproj" />
+    <ProjectReference Include="..\Ambev.Domain\Ambev.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
