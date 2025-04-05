@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ambev.Application\Ambev.Application.csproj" />
-    <ProjectReference Include="..\Ambev.Domain.Common\Ambev.Domain.Common.csproj" />
     <ProjectReference Include="..\Ambev.Domain\Ambev.Domain.csproj" />
   </ItemGroup>
 

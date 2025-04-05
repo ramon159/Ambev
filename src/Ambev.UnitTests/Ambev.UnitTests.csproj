@@ -18,10 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ambev.Application\Ambev.Application.csproj" />
-    <ProjectReference Include="..\Ambev.Domain.Common\Ambev.Domain.Common.csproj" />
     <ProjectReference Include="..\Ambev.Domain\Ambev.Domain.csproj" />
-    <ProjectReference Include="..\Ambev.NoSql\Ambev.NoSql.csproj" />
-    <ProjectReference Include="..\Ambev.Sql\Ambev.Sql.csproj" />
   </ItemGroup>
 
   <ItemGroup>
