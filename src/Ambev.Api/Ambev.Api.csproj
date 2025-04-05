@@ -9,12 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ambev.Application\Ambev.Application.csproj" />
+    <ProjectReference Include="..\Ambev.Domain\Ambev.Domain.csproj" />
+    <ProjectReference Include="..\Ambev.Infrastructure\Ambev.Infrastructure.csproj" />
+    <ProjectReference Include="..\Ambev.IntegrationTests\Ambev.IntegrationTests.csproj" />
     <ProjectReference Include="..\Ambev.ServiceDefaults\Ambev.ServiceDefaults.csproj" />
   </ItemGroup>
 
