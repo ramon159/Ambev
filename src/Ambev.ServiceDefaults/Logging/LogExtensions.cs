@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Ambev.ServiceDefaults.Extensions
+namespace Ambev.ServiceDefaults.Logging
 {
     public static class LogExtensions
     {

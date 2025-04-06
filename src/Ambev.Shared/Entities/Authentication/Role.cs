@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using Ambev.Shared.Common.Entities;
+using Microsoft.AspNetCore.Identity;
 
-namespace Ambev.Shared.Common.Entities
+namespace Ambev.Shared.Entities.Authentication
 {
-    public abstract class BaseEntity : IBaseEntity
+    public class Role : IdentityRole<Guid>, IBaseEntity
     {
-        [JsonPropertyOrder(-1)]
-        [Column(Order = 0)]
-        public Guid Id { get; set; }
         public DateTimeOffset Created { get; set; }
         public string? CreatedBy { get; set; }
         public DateTimeOffset? Updated { get; set; }

@@ -1,4 +1,8 @@
-﻿using Ambev.ServiceDefaults.Extensions;
+﻿using Ambev.ServiceDefaults.HealthCheck;
+using Ambev.ServiceDefaults.Logging;
+using Ambev.ServiceDefaults.Security;
+using Ambev.ServiceDefaults.Telemetry;
+using Ambev.ServiceDefaults.Versioning;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,9 +16,11 @@ namespace Ambev.ServiceDefaults
     {
         public static void UseServiceDefaults(this IHostApplicationBuilder builder)
         {
-            builder.ConfigureOpenTelemetry();
-            builder.AddDefaultHealthChecks();
+            builder.UseOpenTelemetry();
+            builder.UseDefaultHealthChecks();
             builder.ConfigureLog();
+            builder.UseJwtAuthentication();
+            builder.UseApiVersioning();
         }
         public static WebApplication MapDefaultEndpoints(this WebApplication app)
         {

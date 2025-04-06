@@ -7,11 +7,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Entities\" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.14" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="9.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.14" />
+	  <Folder Include="Interfaces\Domain\Services\" />
 	</ItemGroup>
 
 </Project>

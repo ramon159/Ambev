@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace Ambev.Shared.Common.Http
 {
     public class ApiResponseWithData<T> : ApiResponse
     {
+        [JsonPropertyOrder(-1)]
         public T? Data { get; set; }
     }
 }

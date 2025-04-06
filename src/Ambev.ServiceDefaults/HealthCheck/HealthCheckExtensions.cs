@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 
-namespace Ambev.ServiceDefaults.Extensions
+namespace Ambev.ServiceDefaults.HealthCheck
 {
     public static class HealthCheckExtensions
     {
-        public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+        public static TBuilder UseDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
         {
             builder.Services.AddRequestTimeouts(
                 configure: static timeouts =>

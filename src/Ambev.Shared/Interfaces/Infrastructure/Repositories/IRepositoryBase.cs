@@ -1,11 +1,15 @@
-﻿namespace Ambev.Shared.Interfaces.Infrastructure.Repositories
+﻿
+namespace Ambev.Shared.Interfaces.Infrastructure.Repositories
 {
     public interface IRepositoryBase<T> where T : class
     {
-        Task<Guid> AddAsync(T entity);
-        Task DeleteAsync(T entity);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T?> GetByIdAsync(Guid id);
-        Task UpdateAsync(T entity);
+
+        DbSet<T> DbSet { get; }
+
+        Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
+        Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
+        Task<List<T>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+        Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task UpdateAsync(T entity, CancellationToken cancellationToken = default);
     }
 }

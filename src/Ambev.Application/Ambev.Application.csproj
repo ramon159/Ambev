@@ -16,4 +16,9 @@
     <ProjectReference Include="..\Ambev.Shared\Ambev.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dto\User\" />
+    <Folder Include="Mappings\" />
+  </ItemGroup>
+
 </Project>

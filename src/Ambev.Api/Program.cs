@@ -1,9 +1,14 @@
 
 using Ambev.Api.Middlewares;
-using Ambev.Application;
+using Ambev.Api.OpenApi;
 using Ambev.Domain;
 using Ambev.Infrastructure;
 using Ambev.ServiceDefaults;
+using Ambev.Shared.Entities.Authentication;
+using Asp.Versioning;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Ambev.Api
 {
@@ -15,15 +20,13 @@ namespace Ambev.Api
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            ConfigureServices(builder.Services);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+
             builder.UseServiceDefaults();
             builder.UseInfrastructure();
             builder.UseDomain();
-            builder.UseApplication();
-            builder.Services.AddScoped<TransactionMiddleware>();
 
             var app = builder.Build();
 
@@ -31,7 +34,21 @@ namespace Ambev.Api
             if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(
+                options =>
+                {
+                    var descriptions = app.DescribeApiVersions();
+
+                    // build a swagger endpoint for each discovered API version
+                    foreach (var description in descriptions)
+                    {
+                        var url = $"/swagger/{description.GroupName}/swagger.json";
+                        var name = description.GroupName.ToUpperInvariant();
+                        options.SwaggerEndpoint(url, name);
+                    }
+                    options.DefaultModelsExpandDepth(1);
+                    options.DisplayRequestDuration();
+                });
             }
             app.UseHttpsRedirection();
 
@@ -40,9 +57,50 @@ namespace Ambev.Api
 
 
             app.MapControllers();
-
+            app.MapIdentityApi<User>();
             app.UseMiddleware<TransactionMiddleware>();
+
             app.Run();
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddProblemDetails();
+            services.AddControllers();
+            services.AddEndpointsApiExplorer();
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddSwaggerGen(options =>
+            {
+                // add a custom operation filter which sets default values
+                options.OperationFilter<SwaggerDefaultValues>();
+
+                List<string> xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
+                foreach (string fileName in xmlFiles)
+                {
+                    string xmlFilePath = Path.Combine(AppContext.BaseDirectory, fileName);
+                    if (File.Exists(xmlFilePath))
+                        options.IncludeXmlComments(xmlFilePath, includeControllerXmlComments: true);
+                }
+
+                // integrate xml comments
+                //var fileName = typeof(Program).Assembly.GetName().Name + ".xml";
+                //var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
+
+                //// integrate xml comments
+                //options.IncludeXmlComments(filePath);
+
+            });
+
+            services.AddScoped<TransactionMiddleware>();
+            services.AddAutoMapper(typeof(Program).Assembly, typeof(Domain.DependencyInjection).Assembly);
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblies(
+                    typeof(Program).Assembly,
+                    typeof(Domain.DependencyInjection).Assembly
+                    );
+            });
+
         }
     }
 }
