@@ -17,7 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ambev.Api\Ambev.Api.csproj" />
     <ProjectReference Include="..\Ambev.Domain\Ambev.Domain.csproj" />
+    <ProjectReference Include="..\Ambev.Infrastructure\Ambev.Infrastructure.csproj" />
+    <ProjectReference Include="..\Ambev.Shared\Ambev.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

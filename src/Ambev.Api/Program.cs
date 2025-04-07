@@ -57,7 +57,7 @@ namespace Ambev.Api
 
 
             app.MapControllers();
-            app.MapIdentityApi<User>();
+            //app.MapIdentityApi<User>();
             app.UseMiddleware<TransactionMiddleware>();
 
             app.Run();

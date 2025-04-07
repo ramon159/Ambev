@@ -41,9 +41,10 @@ namespace Ambev.Api.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> GetItems([FromQuery] PaginationQuery query, CancellationToken cancellationToken)
         {
-            var paginedResult = _itemRepository.DbSet.PagingAsync(
+            var paginedResult = await _itemRepository.DbSet.PagingAsync(
                 pageNumber: query.Page,
                 pageSize: query.Size,
+                sortTerm: query.Order,
                 cancellationToken: cancellationToken
             );
 
