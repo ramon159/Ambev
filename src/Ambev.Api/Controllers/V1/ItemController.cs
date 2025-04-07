@@ -1,11 +1,10 @@
-﻿using Ambev.Infrastructure;
+﻿using Ambev.Api.Models;
+using Ambev.Infrastructure.Extensions;
 using Ambev.Shared.Common.Http;
 using Ambev.Shared.Entities;
-using Ambev.Shared.Entities.Authentication;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Api.Controllers.v1
 {
@@ -39,8 +38,9 @@ namespace Ambev.Api.Controllers.v1
             return Ok(response);
         }
         [HttpGet]
-        public async Task<IActionResult> GetItems([FromQuery] PaginationQuery query, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetItems([FromQuery] QueryParameters query, CancellationToken cancellationToken)
         {
+
             var paginedResult = await _itemRepository.DbSet.PagingAsync(
                 pageNumber: query.Page,
                 pageSize: query.Size,

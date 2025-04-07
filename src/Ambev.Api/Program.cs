@@ -1,11 +1,11 @@
 
 using Ambev.Api.Middlewares;
+using Ambev.Api.Models;
+using Ambev.Api.Models.Binders;
 using Ambev.Api.OpenApi;
 using Ambev.Domain;
 using Ambev.Infrastructure;
 using Ambev.ServiceDefaults;
-using Ambev.Shared.Entities.Authentication;
-using Asp.Versioning;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -73,7 +73,14 @@ namespace Ambev.Api
             {
                 // add a custom operation filter which sets default values
                 options.OperationFilter<SwaggerDefaultValues>();
+                // Mapeia o Dictionary<string, string> para um objeto com propriedades arbitrárias
 
+                options.MapType<Dictionary<string, string>>(() => new OpenApiSchema
+                {
+                    Type = "object",
+                    AdditionalProperties = new OpenApiSchema { Type = "string" }
+                });
+                //options.OperationFilter<FilterQueryParameterOperationFilter>();
                 List<string> xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
                 foreach (string fileName in xmlFiles)
                 {

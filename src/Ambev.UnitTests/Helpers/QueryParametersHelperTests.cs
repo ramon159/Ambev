@@ -1,27 +1,23 @@
-﻿using Ambev.Shared.Helpers;
+﻿using Ambev.Infrastructure.Extensions;
+using Ambev.Shared.Helpers;
 using Ambev.Shared.Models;
-using Ambev.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Linq.Expressions;
-using Xunit;
 
 namespace Ambev.UnitTests.Helpers
 {
     public class Pessoa
     {
-        public string Nome { get; set; }
-        public Endereco Endereco { get; set; }
+        public string? Nome { get; set; }
+        public Endereco? Endereco { get; set; }
     }
 
     public class Endereco
     {
-        public Cidade Cidade { get; set; }
+        public Cidade? Cidade { get; set; }
     }
 
     public class Cidade
     {
-        public string Nome { get; set; }
+        public string? Nome { get; set; }
     }
     public class QueryParametersHelperTests
     {
@@ -82,7 +78,7 @@ namespace Ambev.UnitTests.Helpers
             var ordered = pessoas.AsQueryable().OrderByNested(propertyName, isAscending).ToList();
 
             // Assert
-            Assert.Equal("A", ordered[0].Endereco.Cidade.Nome); 
+            Assert.Equal("A", ordered[0].Endereco.Cidade.Nome);
 
         }
         [Fact]
