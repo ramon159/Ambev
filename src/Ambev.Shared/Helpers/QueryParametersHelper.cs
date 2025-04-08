@@ -1,4 +1,5 @@
 ﻿using Ambev.Shared.Models;
+using Newtonsoft.Json.Linq;
 using System.Linq.Expressions;
 
 namespace Ambev.Shared.Helpers
@@ -30,14 +31,22 @@ namespace Ambev.Shared.Helpers
                         })
                         .ToList();
         }
-        public static LambdaExpression CreateSortExpression(Type type, string propertyName)
+        public static LambdaExpression CreateExpression(Type type, string propertyName)
         {
             var param = Expression.Parameter(type, "x");
 
             Expression body = param;
             foreach (var member in propertyName.Split('.'))
             {
-                body = Expression.PropertyOrField(body, member);
+                try
+                {
+                    body = Expression.PropertyOrField(body, member);
+                }
+                catch (Exception)
+                {
+                    // Caso a conversão falhe, ignora este filtro
+                    continue;
+                }
             }
 
             return Expression.Lambda(body, param);

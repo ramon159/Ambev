@@ -45,6 +45,7 @@ namespace Ambev.Api.Controllers.v1
                 pageNumber: query.Page,
                 pageSize: query.Size,
                 sortTerm: query.Order,
+                filters: query.Filters,
                 cancellationToken: cancellationToken
             );
 

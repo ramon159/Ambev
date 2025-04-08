@@ -9,7 +9,7 @@ namespace Ambev.Infrastructure.Repositories
     public sealed class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
 
-        private readonly DbContext _context;
+        private readonly WriteDbContext _context;
         public DbSet<T> DbSet { get; }
 
         public RepositoryBase(WriteDbContext context)

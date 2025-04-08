@@ -20,8 +20,8 @@ namespace Ambev.Shared.Common.Http
         public int Size { get; set; } = 10;
 
         /// <summary>
-        /// sort order
-        /// A string of fields to sort by, optionally followed by "asc" or "desc", default "asc".
+        /// Sort order.
+        /// a string of fields to sort by, optionally followed by "asc" or "desc", default "asc".
         /// For example: ?_order="price desc, title asc"
         /// </summary>
         /// 
@@ -30,7 +30,9 @@ namespace Ambev.Shared.Common.Http
 
         /// <summary>
         /// Filter parameters 
-        /// For example: ?_minPrice=50
+        /// For examples: _minPrice=50
+        /// and _minDate=2023-01-01
+        /// and category=*clothing
         /// </summary>
         [ModelBinder(BinderType = typeof(DynamicQueryParametersBinder))]
         public Dictionary<string, string> Filters { get; set; } = new Dictionary<string, string>();
