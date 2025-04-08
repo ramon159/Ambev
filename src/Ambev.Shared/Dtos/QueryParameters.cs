@@ -1,7 +1,7 @@
-﻿using Ambev.Api.Models.Binders;
+﻿using Ambev.Shared.Binders;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ambev.Api.Models
+namespace Ambev.Shared.Dtos
 {
     /// <summary>
     /// Filtering, sorting and paging parameters

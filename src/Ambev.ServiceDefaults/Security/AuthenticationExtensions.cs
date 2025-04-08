@@ -1,4 +1,5 @@
-﻿using Ambev.Shared.Interfaces.Infrastructure.Security;
+﻿using Ambev.Shared.Interfaces;
+using Ambev.Shared.Interfaces.Infrastructure.Security;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,7 @@ namespace Ambev.ServiceDefaults.Security
             builder.Services.AddJwtAuthentication(key);
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddScoped<IUser, CurrentUser>();
             return builder;
         }
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, byte[] signingKey)

@@ -1,4 +1,4 @@
-﻿using Ambev.Api.Models;
+﻿using Ambev.Shared.Dtos;
 using Ambev.Shared.Entities;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Asp.Versioning;

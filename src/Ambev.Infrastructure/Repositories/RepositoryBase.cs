@@ -24,10 +24,16 @@ namespace Ambev.Infrastructure.Repositories
             return await DbSet.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        public async Task<PaginedList<T>> GetAllAsync(int page, int pageSize, string sortTerm, Dictionary<string, string> filters, CancellationToken cancellationToken = default)
+        public async Task<PaginedList<T>> GetAllAsync(int page, int pageSize, string sortTerm, Dictionary<string, string> filters, Func<IQueryable<T>, IQueryable<T>>? includes = null, CancellationToken cancellationToken = default)
         {
             var query = DbSet.Filtering(filters)
                 .Sorting(sortTerm);
+
+            if (includes != null)
+            {
+                query = includes(query);
+            }
+
 
             var count = await query.CountAsync(cancellationToken);
 
@@ -42,8 +48,9 @@ namespace Ambev.Infrastructure.Repositories
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
             await DbSet.AddAsync(entity, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            return entity;
+            var id = await _context.SaveChangesAsync(cancellationToken);
+            var result = await GetByIdAsync(entity.Id, cancellationToken);
+            return result;
         }
 
         public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)

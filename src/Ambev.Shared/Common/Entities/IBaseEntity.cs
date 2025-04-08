@@ -1,15 +1,21 @@
 ﻿
+
 namespace Ambev.Shared.Common.Entities
 {
     public interface IBaseEntity
     {
         Guid Id { get; set; }
-        DateTimeOffset Created { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
         string? CreatedBy { get; set; }
-        DateTimeOffset? Updated { get; set; }
+        DateTimeOffset? UpdatedAt { get; set; }
         string? UpdatedBy { get; set; }
-        DateTimeOffset? Deleted { get; set; }
+        DateTimeOffset? DeletedAt { get; set; }
         string? DeletedBy { get; set; }
         bool IsDeleted { get; set; }
+        IReadOnlyCollection<BaseEvent> DomainEvents { get; }
+
+        void AddDomainEvent(BaseEvent domainEvent);
+        void ClearDomainEvents();
+        void RemoveDomainEvent(BaseEvent domainEvent);
     }
 }

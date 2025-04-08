@@ -2,11 +2,16 @@
 using Ambev.Api.Middlewares;
 using Ambev.Api.OpenApi;
 using Ambev.Domain;
+using Ambev.Domain.Behaviours;
+using Ambev.Domain.Features.Products.Commands.CreateProduct;
 using Ambev.Infrastructure;
 using Ambev.ServiceDefaults;
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 
 namespace Ambev.Api
 {
@@ -56,6 +61,7 @@ namespace Ambev.Api
 
             app.MapControllers();
             //app.MapIdentityApi<User>();
+            app.UseExceptionHandler(options => { });
             app.UseMiddleware<TransactionMiddleware>();
 
             app.Run();
@@ -63,22 +69,20 @@ namespace Ambev.Api
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.AddProblemDetails();
+            //services.AddProblemDetails();
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen(options =>
             {
-                // add a custom operation filter which sets default values
                 options.OperationFilter<SwaggerDefaultValues>();
-                // Mapeia o Dictionary<string, string> para um objeto com propriedades arbitrárias
 
-                options.MapType<Dictionary<string, string>>(() => new OpenApiSchema
-                {
-                    Type = "object",
-                    AdditionalProperties = new OpenApiSchema { Type = "string" }
-                });
-                //options.OperationFilter<FilterQueryParameterOperationFilter>();
+                //options.MapType<Dictionary<string, string>>(() => new OpenApiSchema
+                //{
+                //    Type = "object",
+                //    AdditionalProperties = new OpenApiSchema { Type = "string" }
+                //});
+
                 List<string> xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
                 foreach (string fileName in xmlFiles)
                 {
@@ -87,23 +91,26 @@ namespace Ambev.Api
                         options.IncludeXmlComments(xmlFilePath, includeControllerXmlComments: true);
                 }
 
-                // integrate xml comments
-                //var fileName = typeof(Program).Assembly.GetName().Name + ".xml";
-                //var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
-
-                //// integrate xml comments
-                //options.IncludeXmlComments(filePath);
-
             });
 
+            services.AddExceptionHandler<CustomExceptionHandler>();
+            services.AddValidatorsFromAssembly(typeof(Domain.DependencyInjection).Assembly);
+
             services.AddScoped<TransactionMiddleware>();
-            services.AddAutoMapper(typeof(Program).Assembly, typeof(Domain.DependencyInjection).Assembly);
+            services.AddAutoMapper(typeof(Program).Assembly,
+                typeof(Domain.DependencyInjection).Assembly,
+                typeof(Shared.Assembly).Assembly
+                );
+
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(
+                    Assembly.GetExecutingAssembly(),
                     typeof(Program).Assembly,
                     typeof(Domain.DependencyInjection).Assembly
                     );
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             });
 
         }

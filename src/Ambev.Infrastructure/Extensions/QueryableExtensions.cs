@@ -11,10 +11,6 @@ namespace Ambev.Infrastructure.Extensions
                 query = query.Skip(pageSize.Value * (page.Value - 1)).Take(pageSize.Value);
             return query;
         }
-        //public static async Task<PaginedList<T>> PagingAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize, string sortTerm, Dictionary<string, string> filters, CancellationToken cancellationToken = default)
-        //{
-
-        //}
 
         public static IQueryable<T> Sorting<T>(this IQueryable<T> query, string sort)
         {
@@ -76,7 +72,7 @@ namespace Ambev.Infrastructure.Extensions
 
             // <T> x =>
             ParameterExpression parameter = Expression.Parameter(typeof(T), "x");
-            Expression predicate = null;
+            Expression? predicate = null;
             foreach (var kvp in filters)
             {
                 string key = kvp.Key.Trim('_');
@@ -140,9 +136,8 @@ namespace Ambev.Infrastructure.Extensions
                     {
                         propertyExpression = Expression.PropertyOrField(parameter, key);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-
                         throw new ArgumentException($"{key} is not a property of {typeof(T).Name}");
                     }
 

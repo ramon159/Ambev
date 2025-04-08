@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Ambev.Shared.Dtos;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Ambev.Api.Models.Binders
+namespace Ambev.Shared.Binders
 {
     public class DynamicQueryParametersBinder : IModelBinder
     {
