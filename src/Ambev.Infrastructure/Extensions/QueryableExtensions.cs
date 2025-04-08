@@ -1,8 +1,4 @@
-﻿using Ambev.Shared.Common.Http;
-using Ambev.Shared.Helpers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Globalization;
+﻿using Ambev.Shared.Helpers;
 using System.Linq.Expressions;
 
 namespace Ambev.Infrastructure.Extensions
@@ -15,22 +11,12 @@ namespace Ambev.Infrastructure.Extensions
                 query = query.Skip(pageSize.Value * (page.Value - 1)).Take(pageSize.Value);
             return query;
         }
-        public static async Task<PaginedList<T>> PagingAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize, string sortTerm, Dictionary<string, string> filters, CancellationToken cancellationToken = default)
-        {
-            query = query
-                .Filtering(filters)
-                .Sorting(sortTerm);
+        //public static async Task<PaginedList<T>> PagingAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize, string sortTerm, Dictionary<string, string> filters, CancellationToken cancellationToken = default)
+        //{
 
-            var count = await query.CountAsync(cancellationToken);
+        //}
 
-            var items = await query
-                .Skip((pageNumber - 1) * pageSize).Take(pageSize)
-                .ToListAsync();
-
-            return new PaginedList<T>(items, count, pageNumber, pageSize);
-        }
-
-        private static IQueryable<T> Sorting<T>(this IQueryable<T> query, string sort)
+        public static IQueryable<T> Sorting<T>(this IQueryable<T> query, string sort)
         {
             var sortFields = QueryParametersHelper.SortingParser(sort);
 

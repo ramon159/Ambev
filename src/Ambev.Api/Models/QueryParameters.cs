@@ -1,7 +1,7 @@
 ﻿using Ambev.Api.Models.Binders;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ambev.Shared.Common.Http
+namespace Ambev.Api.Models
 {
     /// <summary>
     /// Filtering, sorting and paging parameters

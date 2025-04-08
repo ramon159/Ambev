@@ -1,5 +1,4 @@
 ﻿using Ambev.Shared.Models;
-using Newtonsoft.Json.Linq;
 using System.Linq.Expressions;
 
 namespace Ambev.Shared.Helpers
@@ -44,7 +43,6 @@ namespace Ambev.Shared.Helpers
                 }
                 catch (Exception)
                 {
-                    // Caso a conversão falhe, ignora este filtro
                     continue;
                 }
             }

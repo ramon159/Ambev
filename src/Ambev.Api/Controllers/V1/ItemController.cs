@@ -1,6 +1,4 @@
 ﻿using Ambev.Api.Models;
-using Ambev.Infrastructure.Extensions;
-using Ambev.Shared.Common.Http;
 using Ambev.Shared.Entities;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Asp.Versioning;
@@ -41,8 +39,8 @@ namespace Ambev.Api.Controllers.v1
         public async Task<IActionResult> GetItems([FromQuery] QueryParameters query, CancellationToken cancellationToken)
         {
 
-            var paginedResult = await _itemRepository.DbSet.PagingAsync(
-                pageNumber: query.Page,
+            var paginedResult = await _itemRepository.GetAllAsync(
+                page: query.Page,
                 pageSize: query.Size,
                 sortTerm: query.Order,
                 filters: query.Filters,

@@ -1,6 +1,7 @@
 ﻿using Ambev.Infrastructure.Data;
 using Ambev.Infrastructure.Extensions;
 using Ambev.Shared.Common.Entities;
+using Ambev.Shared.Common.Http;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,10 +24,19 @@ namespace Ambev.Infrastructure.Repositories
             return await DbSet.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        public async Task<List<T>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+        public async Task<PaginedList<T>> GetAllAsync(int page, int pageSize, string sortTerm, Dictionary<string, string> filters, CancellationToken cancellationToken = default)
         {
-            return await DbSet.Paging(page, pageSize)
-                .ToListAsync(cancellationToken);
+            var query = DbSet.Filtering(filters)
+                .Sorting(sortTerm);
+
+            var count = await query.CountAsync(cancellationToken);
+
+            var items = await query
+                .Paging(page, pageSize)
+                .Skip((page - 1) * pageSize).Take(pageSize)
+                .ToListAsync();
+
+            return new PaginedList<T>(items, count, page, pageSize);
         }
 
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)

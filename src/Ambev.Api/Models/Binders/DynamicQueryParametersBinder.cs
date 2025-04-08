@@ -1,5 +1,4 @@
-﻿using Ambev.Shared.Common.Http;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Ambev.Api.Models.Binders
 {
@@ -14,7 +13,7 @@ namespace Ambev.Api.Models.Binders
 
             var queryParametersProperties = typeof(QueryParameters).GetProperties();
 
-            foreach (var parameter in queryParametersProperties) 
+            foreach (var parameter in queryParametersProperties)
             {
                 var parameterNameUnderscored = "_" + parameter.Name;
                 fixedKeys.Add(parameterNameUnderscored.ToLowerInvariant());

@@ -1,7 +1,5 @@
 
 using Ambev.Api.Middlewares;
-using Ambev.Api.Models;
-using Ambev.Api.Models.Binders;
 using Ambev.Api.OpenApi;
 using Ambev.Domain;
 using Ambev.Infrastructure;
