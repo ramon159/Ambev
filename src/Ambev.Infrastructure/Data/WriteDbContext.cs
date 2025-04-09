@@ -18,7 +18,30 @@ namespace Ambev.Infrastructure.Data
 
             GenerateTablesFromAssembly(builder);
 
+            ConfigureSoftDeleteFilters(builder);
+
             builder.ApplyConfigurationsFromAssembly(typeof(WriteDbContext).Assembly);
+        }
+
+        private static void ConfigureSoftDeleteFilters(ModelBuilder builder)
+        {
+            foreach (var entityType in builder.Model.GetEntityTypes())
+            {
+                if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+                {
+                    var method = typeof(WriteDbContext)
+                        .GetMethod(nameof(SetSoftDeleteFilter), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
+                    ?.MakeGenericMethod(entityType.ClrType);
+
+                    method?.Invoke(null, new object[] { builder });
+                }
+            }
+        }
+
+        private static void SetSoftDeleteFilter<TEntity>(ModelBuilder modelBuilder)
+            where TEntity : BaseEntity
+        {
+            modelBuilder.Entity<TEntity>().HasQueryFilter(e => !e.IsDeleted);
         }
 
         private static void GenerateTablesFromAssembly(ModelBuilder builder)

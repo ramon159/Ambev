@@ -39,9 +39,11 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
 
         foreach (var entry in context.ChangeTracker.Entries<IBaseEntity>())
         {
+            var utcNow = _dateTime.GetUtcNow();
+
+
             if (entry.State is EntityState.Added or EntityState.Modified || entry.HasChangedOwnedEntities())
             {
-                var utcNow = _dateTime.GetUtcNow();
                 if (entry.State == EntityState.Added)
                 {
                     entry.Entity.CreatedBy = _user.Id;
@@ -50,6 +52,15 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
                 entry.Entity.UpdatedBy = _user.Id;
                 entry.Entity.UpdatedAt = utcNow;
             }
+
+            if (entry.State is EntityState.Deleted)
+            {
+                entry.Entity.DeletedBy = _user.Id;
+                entry.Entity.DeletedAt = utcNow;
+                entry.Entity.IsDeleted = true;
+                entry.State = EntityState.Modified;
+            }
+
         }
     }
 }
