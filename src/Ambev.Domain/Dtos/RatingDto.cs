@@ -1,12 +1,13 @@
 ﻿using Ambev.Shared.Entities;
 using AutoMapper;
 
-namespace Ambev.Shared.Dtos
+namespace Ambev.Domain.Dtos
 {
     public class RatingDto
     {
         public double Rate { get; set; }
         public int Count { get; set; }
+
         private class Mapping : Profile
         {
             public Mapping()

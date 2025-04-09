@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Dtos;
+﻿using Ambev.Shared.Common.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Ambev.Shared.Binders

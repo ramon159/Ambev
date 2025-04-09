@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Dtos;
+﻿using Ambev.Domain.Dtos;
 using FluentValidation;
 
 namespace Ambev.Domain.Validators

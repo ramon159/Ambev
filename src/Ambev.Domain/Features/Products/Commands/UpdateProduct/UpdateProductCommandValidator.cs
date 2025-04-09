@@ -1,11 +1,11 @@
 ﻿using Ambev.Domain.Validators;
 using FluentValidation;
 
-namespace Ambev.Domain.Features.Products.Commands.CreateProduct
+namespace Ambev.Domain.Features.Products.Commands.UpdateProduct
 {
-    public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+    public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
     {
-        public CreateProductCommandValidator()
+        public UpdateProductCommandValidator()
         {
             RuleFor(x => x.Title)
                 .NotEmpty()

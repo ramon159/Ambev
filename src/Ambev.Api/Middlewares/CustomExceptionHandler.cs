@@ -12,7 +12,6 @@ public class CustomExceptionHandler : IExceptionHandler
 
     public CustomExceptionHandler()
     {
-        // Register known exception types and handlers.
         _exceptionHandlers = new()
             {
                 { typeof(ValidationException), HandleValidationException },

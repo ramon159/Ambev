@@ -1,7 +1,7 @@
 ﻿using Ambev.Shared.Binders;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ambev.Shared.Dtos
+namespace Ambev.Shared.Common.Http
 {
     /// <summary>
     /// Filtering, sorting and paging parameters
@@ -35,6 +35,6 @@ namespace Ambev.Shared.Dtos
         /// and category=*clothing
         /// </summary>
         [ModelBinder(BinderType = typeof(DynamicQueryParametersBinder))]
-        public Dictionary<string, string> Filters { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string>? Filters { get; set; } = new Dictionary<string, string>();
     }
 }

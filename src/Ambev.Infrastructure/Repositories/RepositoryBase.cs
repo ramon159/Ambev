@@ -1,9 +1,10 @@
 ﻿using Ambev.Infrastructure.Data;
 using Ambev.Infrastructure.Extensions;
 using Ambev.Shared.Common.Entities;
-using Ambev.Shared.Common.Http;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Ambev.Infrastructure.Repositories
 {
@@ -19,12 +20,15 @@ namespace Ambev.Infrastructure.Repositories
             DbSet = context.Set<T>();
         }
 
-        public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<T?> GetByIdAsync(Guid id, Func<IQueryable<T>, IQueryable<T>>? includes = null, CancellationToken cancellationToken = default)
         {
-            return await DbSet.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            return await DbSet
+                .Including(includes)
+                .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        public async Task<PaginedList<T>> GetAllAsync(int page, int pageSize, string sortTerm, Dictionary<string, string> filters, Func<IQueryable<T>, IQueryable<T>>? includes = null, CancellationToken cancellationToken = default)
+
+        public async Task<(List<T> Items, int Count)> GetAllAsync(int page, int pageSize, string sortTerm, Dictionary<string, string>? filters, Func<IQueryable<T>, IQueryable<T>>? includes = null, CancellationToken cancellationToken = default)
         {
             var query = DbSet.Filtering(filters)
                 .Sorting(sortTerm);
@@ -39,30 +43,42 @@ namespace Ambev.Infrastructure.Repositories
 
             var items = await query
                 .Paging(page, pageSize)
-                .Skip((page - 1) * pageSize).Take(pageSize)
                 .ToListAsync();
-
-            return new PaginedList<T>(items, count, page, pageSize);
+            return (items, count);
         }
 
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
-            await DbSet.AddAsync(entity, cancellationToken);
-            var id = await _context.SaveChangesAsync(cancellationToken);
-            var result = await GetByIdAsync(entity.Id, cancellationToken);
-            return result;
-        }
+            if (entity == null)
+                Guard.Against.Null(entity);
 
-        public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
-        {
-            DbSet.Update(entity);
+            var entry = await DbSet.AddAsync(entity, cancellationToken);
+
             await _context.SaveChangesAsync(cancellationToken);
+
+            return entry.Entity;
         }
 
-        public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
+        public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
+            if (entity == null)
+                Guard.Against.Null(entity);
+
+            var entry = DbSet.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
+            return entry.Entity;
+        }
+
+        public async Task<bool> DeleteAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            if (entity == null)
+                Guard.Against.Null(entity);
+
             DbSet.Remove(entity);
-            await _context.SaveChangesAsync(cancellationToken);
+            var changes = await _context.SaveChangesAsync(cancellationToken);
+            return changes > 0;
         }
+
+
     }
 }

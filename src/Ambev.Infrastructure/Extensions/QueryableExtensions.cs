@@ -1,4 +1,5 @@
 ﻿using Ambev.Shared.Helpers;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Ambev.Infrastructure.Extensions
@@ -65,7 +66,7 @@ namespace Ambev.Infrastructure.Extensions
         /// <param name="query">Query original</param>
         /// <param name="filters">Dicionário com os filtros (chave = nome do campo, valor = critério)</param>
         /// <returns>Query com os filtros aplicados</returns>
-        public static IQueryable<T> Filtering<T>(this IQueryable<T> query, IDictionary<string, string> filters)
+        public static IQueryable<T> Filtering<T>(this IQueryable<T> query, IDictionary<string, string>? filters)
         {
             if (filters == null || !filters.Any())
                 return query;
@@ -204,5 +205,27 @@ namespace Ambev.Infrastructure.Extensions
             return query.Where(lambda);
         }
 
+        public static IQueryable<T> Filtering<T>(this IQueryable<T> query, Expression<Func<T, bool>>? filter)
+        {
+            if (filter != null) query = query.Where(filter);
+            return query;
+        }
+        public static IQueryable<T> Ordering<T>(this IQueryable<T> query, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy)
+        {
+            if (orderBy != null) query = orderBy(query);
+            return query;
+        }
+        public static IQueryable<T> Including<T>(this IQueryable<T> query, Func<IQueryable<T>, IQueryable<T>>? includes)
+        {
+            
+            if (includes != null) query = includes(query);
+            return query;
+        }
+
+        public static IQueryable<T> Selecting<T>(this IQueryable<T> query, Expression<Func<T, T>>? selector = null)
+        {
+            if (selector != null) query = query.Select(selector);
+            return query;
+        }
     }
 }

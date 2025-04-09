@@ -2,9 +2,9 @@
 using Ambev.Shared.Entities;
 using AutoMapper;
 
-namespace Ambev.Domain.Features.Products.Commands.CreateProduct
+namespace Ambev.Domain.Features.Products.Queries.GetProduct
 {
-    public record CreateProductResponse
+    public class GetProductResponse
     {
         public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;
@@ -12,12 +12,13 @@ namespace Ambev.Domain.Features.Products.Commands.CreateProduct
         public string Description { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
         public string Image { get; set; } = string.Empty;
-        public RatingDto Rating { get; init; } = new();
+        public required RatingDto Rating { get; set; }
+
         private class Mapping : Profile
         {
             public Mapping()
             {
-                CreateMap<CreateProductResponse, Product>().ReverseMap();
+                CreateMap<GetProductResponse, Product>().ReverseMap();
             }
         }
     }

@@ -3,13 +3,12 @@ using Ambev.Api.Middlewares;
 using Ambev.Api.OpenApi;
 using Ambev.Domain;
 using Ambev.Domain.Behaviours;
-using Ambev.Domain.Features.Products.Commands.CreateProduct;
 using Ambev.Infrastructure;
 using Ambev.ServiceDefaults;
+using AutoMapper.EquivalencyExpression;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
@@ -97,10 +96,14 @@ namespace Ambev.Api
             services.AddValidatorsFromAssembly(typeof(Domain.DependencyInjection).Assembly);
 
             services.AddScoped<TransactionMiddleware>();
-            services.AddAutoMapper(typeof(Program).Assembly,
+
+            services.AddAutoMapper((serviceProvider, cfg) =>
+            {
+                cfg.AddCollectionMappers();
+            }, typeof(Program).Assembly,
                 typeof(Domain.DependencyInjection).Assembly,
-                typeof(Shared.Assembly).Assembly
-                );
+                typeof(Shared.Assembly).Assembly);
+
 
             services.AddMediatR(cfg =>
             {
