@@ -2,14 +2,19 @@
 using Ambev.Shared.Common.Http;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.Api.Middlewares;
 
+/// <summary>
+/// Handler that manages exceptions
+/// </summary>
 public class CustomExceptionHandler : IExceptionHandler
 {
     private readonly Dictionary<Type, Func<HttpContext, Exception, Task>> _exceptionHandlers;
 
+    /// <summary>
+    /// Constructor of CustomExceptionHandler
+    /// </summary>
     public CustomExceptionHandler()
     {
         _exceptionHandlers = new()
@@ -21,6 +26,13 @@ public class CustomExceptionHandler : IExceptionHandler
             };
     }
 
+    /// <summary>
+    /// method to sync the correct exception to respective handler
+    /// </summary>
+    /// <param name="httpContext"></param>
+    /// <param name="exception"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         var exceptionType = exception.GetType();
@@ -53,7 +65,6 @@ public class CustomExceptionHandler : IExceptionHandler
         var exception = (ValidationException)ex;
 
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        ValidationProblemDetails details;
         await httpContext.Response.WriteAsJsonAsync(new ApiValidationProblemDetails(exception.Errors)
         {
             Status = httpContext.Response.StatusCode,

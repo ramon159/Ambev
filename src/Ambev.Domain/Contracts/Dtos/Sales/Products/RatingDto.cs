@@ -1,7 +1,7 @@
-﻿using Ambev.Shared.Entities;
+﻿using Ambev.Shared.Entities.Sales;
 using AutoMapper;
 
-namespace Ambev.Domain.Dtos
+namespace Ambev.Domain.Contracts.Dtos.Sales.Products
 {
     public class RatingDto
     {

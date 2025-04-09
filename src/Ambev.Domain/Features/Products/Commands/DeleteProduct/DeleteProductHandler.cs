@@ -1,14 +1,8 @@
-﻿using Ambev.Shared.Entities;
+﻿using Ambev.Shared.Entities.Sales;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Ardalis.GuardClauses;
-using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ambev.Domain.Features.Products.Commands.DeleteProduct
 {

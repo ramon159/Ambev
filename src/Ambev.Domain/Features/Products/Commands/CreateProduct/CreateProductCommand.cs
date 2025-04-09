@@ -1,5 +1,5 @@
-﻿using Ambev.Domain.Dtos;
-using Ambev.Shared.Entities;
+﻿using Ambev.Domain.Contracts.Dtos.Sales.Products;
+using Ambev.Shared.Entities.Sales;
 using AutoMapper;
 using MediatR;
 

@@ -1,9 +1,10 @@
-﻿using Ambev.Domain.Dtos;
+﻿using Ambev.Domain.Contracts.Dtos.Sales.Products;
+using Ambev.Domain.Features.Carts.Commands.UpdateCart;
 using MediatR;
 
 namespace Ambev.Domain.Features.Products.Commands.UpdateProduct
 {
-    public record UpdateProductCommand : IRequest<UpdateProductResponse>
+    public record UpdateProductCommand : IRequest<UpdateProductResponse>, IUpdateCommand
     {
         public Guid Id { get; private set; }
         public void SetId(Guid Id)

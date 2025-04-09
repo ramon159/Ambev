@@ -1,5 +1,4 @@
 ﻿using Ambev.Shared.Helpers;
-using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Ambev.Infrastructure.Extensions
@@ -79,8 +78,8 @@ namespace Ambev.Infrastructure.Extensions
                 string key = kvp.Key.Trim('_');
                 string value = kvp.Value;
 
-                Expression filterExpression = null;
-                Expression propertyExpression = null;
+                Expression? filterExpression = null;
+                Expression? propertyExpression = null;
 
                 if (key.StartsWith("min") || key.StartsWith("max"))
                 {
@@ -217,14 +216,14 @@ namespace Ambev.Infrastructure.Extensions
         }
         public static IQueryable<T> Including<T>(this IQueryable<T> query, Func<IQueryable<T>, IQueryable<T>>? includes)
         {
-            
+
             if (includes != null) query = includes(query);
             return query;
         }
 
-        public static IQueryable<T> Selecting<T>(this IQueryable<T> query, Expression<Func<T, T>>? selector = null)
+        public static IQueryable<T> Selecting<T>(this IQueryable<T> query, Func<IQueryable<T>, IQueryable<T>>? selectors)
         {
-            if (selector != null) query = query.Select(selector);
+            if (selectors != null) query = selectors(query);
             return query;
         }
     }

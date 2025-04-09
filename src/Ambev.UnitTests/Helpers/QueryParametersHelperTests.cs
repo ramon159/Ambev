@@ -78,7 +78,7 @@ namespace Ambev.UnitTests.Helpers
             var ordered = pessoas.AsQueryable().OrderByNested(propertyName, isAscending).ToList();
 
             // Assert
-            Assert.Equal("A", ordered[0].Endereco.Cidade.Nome);
+            Assert.Equal("A", ordered[0]?.Endereco?.Cidade?.Nome);
 
         }
         [Fact]

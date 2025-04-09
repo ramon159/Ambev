@@ -5,7 +5,7 @@ namespace Ambev.Shared.Common.Entities
     public abstract class BaseEntity : IBaseEntity
     {
         [Column(Order = 0)]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public DateTimeOffset CreatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

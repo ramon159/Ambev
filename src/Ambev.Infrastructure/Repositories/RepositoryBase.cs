@@ -3,8 +3,6 @@ using Ambev.Infrastructure.Extensions;
 using Ambev.Shared.Common.Entities;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Ambev.Infrastructure.Repositories
 {
@@ -28,9 +26,10 @@ namespace Ambev.Infrastructure.Repositories
         }
 
 
-        public async Task<(List<T> Items, int Count)> GetAllAsync(int page, int pageSize, string sortTerm, Dictionary<string, string>? filters, Func<IQueryable<T>, IQueryable<T>>? includes = null, CancellationToken cancellationToken = default)
+        public async Task<(List<T> Items, int Count)> GetAllAsync(int page, int pageSize, string sortTerm, Dictionary<string, string>? filters, Func<IQueryable<T>, IQueryable<T>>? includes = null, Func<IQueryable<T>, IQueryable<T>>? selectors = null, CancellationToken cancellationToken = default)
         {
             var query = DbSet.Filtering(filters)
+                .Selecting(selectors)
                 .Sorting(sortTerm);
 
             if (includes != null)
@@ -74,7 +73,8 @@ namespace Ambev.Infrastructure.Repositories
             if (entity == null)
                 Guard.Against.Null(entity);
 
-            DbSet.Remove(entity);
+            var entityEntry = DbSet.Remove(entity);
+
             var changes = await _context.SaveChangesAsync(cancellationToken);
             return changes > 0;
         }

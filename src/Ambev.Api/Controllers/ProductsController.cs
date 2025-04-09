@@ -2,6 +2,7 @@
 using Ambev.Domain.Features.Products.Commands.DeleteProduct;
 using Ambev.Domain.Features.Products.Commands.UpdateProduct;
 using Ambev.Domain.Features.Products.Queries.GetProduct;
+using Ambev.Domain.Features.Products.Queries.GetProductCategories;
 using Ambev.Domain.Features.Products.Queries.GetProductWithPagination;
 using Ambev.Shared.Common.Http;
 using Asp.Versioning;
@@ -30,7 +31,7 @@ namespace Ambev.Api.Controllers
         }
 
         /// <summary>
-        /// Retrieve a list of all products
+        /// Retrieve a list of products
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
@@ -63,12 +64,12 @@ namespace Ambev.Api.Controllers
 
         public async Task<IActionResult> GetProduct([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            var request = new GetProductCommand();
-            request.Id = id;
+            var request = new GetProductCommand() { Id = id };
+
             var response = await _mediator.Send(request, cancellationToken);
 
-            return Ok(new ApiResponseWithData<GetProductResponse> 
-            { 
+            return Ok(new ApiResponseWithData<GetProductResponse>
+            {
                 Data = response,
                 Message = "Product retrived sucessfully"
             });
@@ -125,13 +126,59 @@ namespace Ambev.Api.Controllers
 
         public async Task<IActionResult> DeleteProduct([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            var request = new DeleteProductCommand();
-            request.Id = id;
+            var request = new DeleteProductCommand() { Id = id };
+
             var response = await _mediator.Send(request, cancellationToken);
 
             return Ok(new ApiResponse
             {
                 Message = "Product deleted successfully"
+            });
+        }
+
+        /// <summary>
+        /// Retrieve a list of all product categories
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("categories")]
+        [ProducesResponseType(typeof(ApiResponseWithPagination<IReadOnlyCollection<GetProductResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAllProductCategories(CancellationToken cancellationToken)
+        {
+            var request = new GetAllCategoriesCommand();
+            var response = await _mediator.Send(request, cancellationToken);
+
+            return Ok(new ApiResponseWithData<IReadOnlyCollection<string>>
+            {
+                Data = response
+            });
+        }
+
+        /// <summary>
+        /// Retrieve a list of products by category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("category/{category}")]
+        [ProducesResponseType(typeof(ApiResponseWithPagination<IReadOnlyCollection<GetProductResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProductsByCategory([FromRoute] string category, [FromQuery] GetAllProductsCommand request, CancellationToken cancellationToken)
+        {
+            request.Filters.Add("category", category);
+
+            var response = await _mediator.Send(request, cancellationToken);
+
+            return Ok(new ApiResponseWithPagination<IReadOnlyCollection<GetProductResponse>>
+            {
+                Data = response.Items,
+                TotalItems = response.TotalItems,
+                CurrentPage = response.CurrentPage,
+                TotalPages = response.TotalPages,
+                HasNextPage = response.HasNextPage,
+                HasPreviousPage = response.HasPreviousPage
             });
         }
     }

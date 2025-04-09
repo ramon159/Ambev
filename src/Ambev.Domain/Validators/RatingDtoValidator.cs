@@ -1,4 +1,4 @@
-﻿using Ambev.Domain.Dtos;
+﻿using Ambev.Domain.Contracts.Dtos.Sales.Products;
 using FluentValidation;
 
 namespace Ambev.Domain.Validators

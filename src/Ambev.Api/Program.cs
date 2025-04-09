@@ -5,17 +5,27 @@ using Ambev.Domain;
 using Ambev.Domain.Behaviours;
 using Ambev.Infrastructure;
 using Ambev.ServiceDefaults;
+using Ambev.Shared.Entities.Authentication;
 using AutoMapper.EquivalencyExpression;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
 namespace Ambev.Api
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -59,7 +69,9 @@ namespace Ambev.Api
 
 
             app.MapControllers();
-            //app.MapIdentityApi<User>();
+            app.MapGroup("api")
+                .MapGroup("authentication")
+                .MapIdentityApi<User>();
             app.UseExceptionHandler(options => { });
             app.UseMiddleware<TransactionMiddleware>();
 
@@ -68,7 +80,12 @@ namespace Ambev.Api
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            //services.AddProblemDetails();
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+                options.SignIn.RequireConfirmedAccount = false;
+            });
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
@@ -76,11 +93,11 @@ namespace Ambev.Api
             {
                 options.OperationFilter<SwaggerDefaultValues>();
 
-                //options.MapType<Dictionary<string, string>>(() => new OpenApiSchema
-                //{
-                //    Type = "object",
-                //    AdditionalProperties = new OpenApiSchema { Type = "string" }
-                //});
+                options.MapType<Dictionary<string, string>>(() => new OpenApiSchema
+                {
+                    Type = "object",
+                    AdditionalProperties = new OpenApiSchema { Type = "string" }
+                });
 
                 List<string> xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
                 foreach (string fileName in xmlFiles)
@@ -103,7 +120,6 @@ namespace Ambev.Api
             }, typeof(Program).Assembly,
                 typeof(Domain.DependencyInjection).Assembly,
                 typeof(Shared.Assembly).Assembly);
-
 
             services.AddMediatR(cfg =>
             {

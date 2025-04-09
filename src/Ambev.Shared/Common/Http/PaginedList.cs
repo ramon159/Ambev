@@ -2,10 +2,6 @@
 {
     public class PaginedList<T>
     {
-        public PaginedList()
-        {
-        }
-
         public PaginedList(IReadOnlyCollection<T> items, int totalItems, int currentPage, int pageSize)
         {
             Items=items;

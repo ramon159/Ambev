@@ -35,6 +35,6 @@ namespace Ambev.Shared.Common.Http
         /// and category=*clothing
         /// </summary>
         [ModelBinder(BinderType = typeof(DynamicQueryParametersBinder))]
-        public Dictionary<string, string>? Filters { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Filters { get; set; } = new Dictionary<string, string>();
     }
 }

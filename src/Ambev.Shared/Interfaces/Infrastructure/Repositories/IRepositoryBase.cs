@@ -7,7 +7,7 @@
 
         Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
         Task<bool> DeleteAsync(T entity, CancellationToken cancellationToken = default);
-        Task<(List<T> Items, int Count)> GetAllAsync(int page, int pageSize, string sortTerm, Dictionary<string, string>? filters, Func<IQueryable<T>, IQueryable<T>>? includes = null, CancellationToken cancellationToken = default);
+        Task<(List<T> Items, int Count)> GetAllAsync(int page, int pageSize, string sortTerm, Dictionary<string, string>? filters, Func<IQueryable<T>, IQueryable<T>>? includes = null, Func<IQueryable<T>, IQueryable<T>>? selectors = null, CancellationToken cancellationToken = default);
         Task<T?> GetByIdAsync(Guid id, Func<IQueryable<T>, IQueryable<T>>? includes = null, CancellationToken cancellationToken = default);
         Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default);
     }

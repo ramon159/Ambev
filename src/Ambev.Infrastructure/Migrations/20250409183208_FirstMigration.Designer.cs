@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20250408151955_FirstMigration")]
+    [Migration("20250409183208_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -159,12 +159,54 @@ namespace Ambev.Infrastructure.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Ambev.Shared.Entities.Item", b =>
+            modelBuilder.Entity("Ambev.Shared.Entities.Sales.Cart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnOrder(0);
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cart", (string)null);
+                });
+
+            modelBuilder.Entity("Ambev.Shared.Entities.Sales.CartProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnOrder(0);
+
+                    b.Property<Guid?>("CartId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -181,11 +223,10 @@ namespace Ambev.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int?>("Quantity")
                         .HasColumnType("integer");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
@@ -196,10 +237,14 @@ namespace Ambev.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Item", (string)null);
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartProduct", (string)null);
                 });
 
-            modelBuilder.Entity("Ambev.Shared.Entities.Product", b =>
+            modelBuilder.Entity("Ambev.Shared.Entities.Sales.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -256,7 +301,7 @@ namespace Ambev.Infrastructure.Migrations
                     b.ToTable("Product", (string)null);
                 });
 
-            modelBuilder.Entity("Ambev.Shared.Entities.Rating", b =>
+            modelBuilder.Entity("Ambev.Shared.Entities.Sales.Rating", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -398,9 +443,24 @@ namespace Ambev.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Ambev.Shared.Entities.Product", b =>
+            modelBuilder.Entity("Ambev.Shared.Entities.Sales.CartProduct", b =>
                 {
-                    b.HasOne("Ambev.Shared.Entities.Rating", "Rating")
+                    b.HasOne("Ambev.Shared.Entities.Sales.Cart", "Cart")
+                        .WithMany("Products")
+                        .HasForeignKey("CartId");
+
+                    b.HasOne("Ambev.Shared.Entities.Sales.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Ambev.Shared.Entities.Sales.Product", b =>
+                {
+                    b.HasOne("Ambev.Shared.Entities.Sales.Rating", "Rating")
                         .WithMany()
                         .HasForeignKey("RatingId");
 
@@ -456,6 +516,11 @@ namespace Ambev.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Ambev.Shared.Entities.Sales.Cart", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

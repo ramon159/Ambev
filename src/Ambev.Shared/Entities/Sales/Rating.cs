@@ -1,6 +1,6 @@
 ﻿using Ambev.Shared.Common.Entities;
 
-namespace Ambev.Shared.Entities
+namespace Ambev.Shared.Entities.Sales
 {
     public class Rating : BaseEntity
     {

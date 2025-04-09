@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Entities;
+﻿using Ambev.Shared.Entities.Sales;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Ardalis.GuardClauses;
 using AutoMapper;
@@ -21,7 +21,7 @@ namespace Ambev.Domain.Features.Products.Commands.UpdateProduct
         public async Task<UpdateProductResponse> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetByIdAsync(
-                request.Id, 
+                request.Id,
                 includes: p => p.Include(p => p.Rating)
                 );
 
