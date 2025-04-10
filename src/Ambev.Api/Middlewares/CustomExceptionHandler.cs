@@ -2,10 +2,6 @@
 using Ambev.Shared.Common.Http;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using NuGet.Protocol;
-using System.Net.Http;
-using System.Text;
 
 namespace Ambev.Api.Middlewares;
 

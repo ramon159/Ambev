@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace Ambev.ServiceDefaults.Security;
+namespace Ambev.Shared.Common.Http;
 
 public class CurrentUser : IUser
 {

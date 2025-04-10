@@ -22,6 +22,7 @@ namespace Ambev.ServiceDefaults.Security
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
             builder.Services.AddScoped<IUser, CurrentUser>();
+            builder.Services.AddTransient<IAuthService, AuthService>();
             return builder;
         }
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, byte[] signingKey)

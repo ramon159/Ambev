@@ -1,4 +1,5 @@
-﻿using Ambev.Shared.Interfaces.Infrastructure.Security;
+﻿using Ambev.Shared.Interfaces;
+using Ambev.Shared.Interfaces.Infrastructure.Security;
 using Ardalis.GuardClauses;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -18,7 +19,7 @@ namespace Ambev.ServiceDefaults.Security
             _jwtconfig = jwtConfig;
         }
 
-        public string GenerateToken(IAuthenticationUser user)
+        public string GenerateToken(IUser user)
         {
             SecurityTokenDescriptor tokenDescriptor = GetTokenDescriptor(user);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -27,7 +28,7 @@ namespace Ambev.ServiceDefaults.Security
 
             return token;
         }
-        private SecurityTokenDescriptor GetTokenDescriptor(IAuthenticationUser user)
+        private SecurityTokenDescriptor GetTokenDescriptor(IUser user)
         {
             byte[] securityKey = Encoding.UTF8.GetBytes(_jwtconfig.SecretKey);
             var symmetricSecurityKey = new SymmetricSecurityKey(securityKey);

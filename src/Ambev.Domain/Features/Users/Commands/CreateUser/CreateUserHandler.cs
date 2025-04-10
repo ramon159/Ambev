@@ -1,6 +1,7 @@
 ﻿using Ambev.Shared.Common.Exceptions;
 using Ambev.Shared.Entities.Authentication;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
+using Ambev.Shared.Interfaces.Infrastructure.Security;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +12,13 @@ namespace Ambev.Domain.Features.Users.Commands.CreateUser
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryBase<User> _userRepository;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public CreateUserHandler(IMapper mapper, IRepositoryBase<User> userRepository)
+        public CreateUserHandler(IMapper mapper, IRepositoryBase<User> userRepository, IPasswordHasher passwordHasher)
         {
             _mapper = mapper;
             _userRepository=userRepository;
+            _passwordHasher=passwordHasher;
         }
 
         public async Task<CreateUserResponse> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -38,6 +41,7 @@ namespace Ambev.Domain.Features.Users.Commands.CreateUser
                 throw new BusinessValidationException($"{string.Join(" and ", duplicatedFields)} already in use.");
             }
 
+            user.PasswordHash = _passwordHasher.HashPassword(request.Password);
 
             var result = await _userRepository.AddAsync(user, cancellationToken);
 

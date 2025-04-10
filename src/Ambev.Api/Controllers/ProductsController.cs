@@ -85,7 +85,7 @@ namespace Ambev.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponseWithData<CreateProductResponse>), StatusCodes.Status200OK)]
 
-        public async Task<IActionResult> CreateProduc([FromBody] CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(new ApiResponseWithData<CreateProductResponse>
@@ -105,7 +105,7 @@ namespace Ambev.Api.Controllers
         [HttpPut("{id:guid}")]
         [ProducesResponseType(typeof(ApiResponseWithData<UpdateProductResponse>), StatusCodes.Status200OK)]
 
-        public async Task<IActionResult> UpdateProduc([FromRoute] Guid id, [FromBody] UpdateProductCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProduct([FromRoute] Guid id, [FromBody] UpdateProductCommand request, CancellationToken cancellationToken)
         {
             request.SetId(id);
             var response = await _mediator.Send(request, cancellationToken);

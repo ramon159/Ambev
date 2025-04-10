@@ -2,6 +2,6 @@
 {
     public interface ITokenService
     {
-        string GenerateToken(IAuthenticationUser user);
+        string GenerateToken(IUser user);
     }
 }

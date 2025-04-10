@@ -1,10 +1,13 @@
-﻿using Ambev.Domain.Contracts.Dtos.Sales.Products;
+﻿using Ambev.Domain.Attributes.Security;
+using Ambev.Domain.Constants;
+using Ambev.Domain.Contracts.Dtos.Sales.Products;
 using Ambev.Shared.Entities.Sales;
 using AutoMapper;
 using MediatR;
 
 namespace Ambev.Domain.Features.Products.Commands.CreateProduct
 {
+    [Authorize(Roles = Roles.Admin)]
     public record CreateProductCommand : IRequest<CreateProductResponse>
     {
         public string Title { get; init; } = string.Empty;

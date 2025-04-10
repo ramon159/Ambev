@@ -1,9 +1,7 @@
 ﻿using Ambev.Shared.Common.Exceptions;
 using Ambev.Shared.Entities.Authentication;
-using Ambev.Shared.Entities.Sales;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Ambev.Shared.Interfaces.Infrastructure.Security;
-using Ambev.Shared.ValueObjects;
 using Ardalis.GuardClauses;
 using AutoMapper;
 using MediatR;
@@ -47,7 +45,7 @@ namespace Ambev.Domain.Features.Users.Commands.UpdateUser
             }
 
 
-            if (request.Password != null) 
+            if (request.Password != null)
             {
                 user.PasswordHash = _passwordHasher.HashPassword(request.Password);
             }

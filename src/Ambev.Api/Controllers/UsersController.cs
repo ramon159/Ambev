@@ -1,4 +1,5 @@
-﻿using Ambev.Domain.Features.Users.Commands.CreateUser;
+﻿using Ambev.Domain.Attributes.Security;
+using Ambev.Domain.Features.Users.Commands.CreateUser;
 using Ambev.Domain.Features.Users.Commands.DeleteUser;
 using Ambev.Domain.Features.Users.Commands.UpdateUser;
 using Ambev.Domain.Features.Users.Queries.GetUser;
@@ -80,7 +81,7 @@ namespace Ambev.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponseWithData<CreateUserResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateProduc([FromBody] CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(new ApiResponseWithData<CreateUserResponse>
@@ -101,7 +102,7 @@ namespace Ambev.Api.Controllers
         [ProducesResponseType(typeof(ApiResponseWithData<UpdateUserResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateProduc([FromRoute] Guid id, [FromBody] UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserCommand request, CancellationToken cancellationToken)
         {
             request.SetId(id);
             var response = await _mediator.Send(request, cancellationToken);
