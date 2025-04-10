@@ -5,6 +5,7 @@ using Ardalis.GuardClauses;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
 {
@@ -12,11 +13,13 @@ namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryBase<Cart> _cartRepository;
+        private readonly IRepositoryBase<CartProduct> _cartProductRepository;
 
-        public UpdateCartHandler(IMapper mapper, IRepositoryBase<Cart> cartRepository)
+        public UpdateCartHandler(IMapper mapper, IRepositoryBase<Cart> cartRepository, IRepositoryBase<CartProduct> cartProductRepository)
         {
             _mapper = mapper;
             _cartRepository=cartRepository;
+            this._cartProductRepository=cartProductRepository;
         }
 
         public async Task<UpdateCartResponse> Handle(UpdateCartCommand request, CancellationToken cancellationToken)
@@ -28,11 +31,14 @@ namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
                 );
 
             Guard.Against.NotFound(request.Id, cart);
-            cart.Products.Clear();
-               
-            //await _cartRepository.SaveChangesAsync(cancellationToken);
 
-            cart.Products.AddRange(request.Products.Select(p =>
+            // i think i'm wrong, but is that what i understood
+            cart.Products.Clear();
+
+            cart.UserId = request.UserId;
+            cart.Date = request.Date;
+
+            var cartProducts = request.Products.Select(p =>
             {
                 return new CartProduct
                 {
@@ -40,15 +46,12 @@ namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
                     ProductId = p.ProductId,
                     Quantity = p.Quantity
                 };
-            }));
+            });
 
-            //await _cartRepository.SaveChangesAsync(cancellationToken);
-            cart.UserId = request.UserId;
-            cart.Date = request.Date;
+            // due documentation i added new cart items because don't pass Id in request, i don't have no one to ask if this is the correct behavior...
 
+            await _cartProductRepository.DbSet.AddRangeAsync(cartProducts);
             await _cartRepository.SaveChangesAsync(cancellationToken);
-            
-            //var result = await _cartRepository.UpdateAsync(cart, cancellationToken);
 
             return _mapper.Map<UpdateCartResponse>(cart);
 
