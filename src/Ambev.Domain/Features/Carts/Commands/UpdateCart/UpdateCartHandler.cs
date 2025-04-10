@@ -1,11 +1,9 @@
-﻿using Ambev.Infrastructure.Extensions;
-using Ambev.Shared.Entities.Sales;
+﻿using Ambev.Shared.Entities.Sales;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Ardalis.GuardClauses;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
 {
@@ -24,7 +22,6 @@ namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
 
         public async Task<UpdateCartResponse> Handle(UpdateCartCommand request, CancellationToken cancellationToken)
         {
-
             var cart = await _cartRepository.GetByIdAsync(
                  request.Id,
                 includes: c => c.Include(c => c.Products)
@@ -32,13 +29,18 @@ namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
 
             Guard.Against.NotFound(request.Id, cart);
 
-            // i think i'm wrong, but is that what i understood
-            cart.Products.Clear();
+            await SynchronizeCartProducts(request, cart);
 
-            cart.UserId = request.UserId;
-            cart.Date = request.Date;
+            await _cartRepository.SaveChangesAsync(cancellationToken);
 
-            var cartProducts = request.Products.Select(p =>
+            return _mapper.Map<UpdateCartResponse>(cart);
+
+        }
+
+
+        private async Task SynchronizeCartProducts(UpdateCartCommand request, Cart cart)
+        {
+            var incomingCartProducts = request.Products.Select(p =>
             {
                 return new CartProduct
                 {
@@ -48,13 +50,24 @@ namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
                 };
             });
 
-            // due documentation i added new cart items because don't pass Id in request, i don't have no one to ask if this is the correct behavior...
+            foreach (var cartProduct in cart.Products)
+            {
+                var existingCartProduct = incomingCartProducts.FirstOrDefault(dto => dto.MatchesProduct(cartProduct));
 
-            await _cartProductRepository.DbSet.AddRangeAsync(cartProducts);
-            await _cartRepository.SaveChangesAsync(cancellationToken);
+                if (existingCartProduct != null)
+                {
+                    cartProduct.Quantity = existingCartProduct.Quantity;
+                    continue;
+                }
 
-            return _mapper.Map<UpdateCartResponse>(cart);
+                _cartProductRepository.DbSet.Remove(cartProduct);
+            }
 
+            var productsToAdd = incomingCartProducts
+                .Where(dto => !cart.Products.Any(cp => cp.MatchesProduct(dto)))
+                .ToList();
+
+            await _cartProductRepository.DbSet.AddRangeAsync(productsToAdd);
         }
     }
 }

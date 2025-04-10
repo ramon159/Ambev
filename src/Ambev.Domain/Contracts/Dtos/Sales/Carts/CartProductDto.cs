@@ -1,7 +1,7 @@
 ﻿using Ambev.Shared.Entities.Sales;
 using AutoMapper;
 
-namespace Ambev.Domain.Contracts.Dtos.Sales.Carts.Create
+namespace Ambev.Domain.Contracts.Dtos.Sales.Carts
 {
     public class CartProductDto
     {

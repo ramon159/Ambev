@@ -7,7 +7,7 @@ namespace Ambev.Domain.Contracts.ViewModels.Sales.Carts
     public class CartVM : BaseViewModel
     {
         public Guid? UserId { get; set; }
-        public DateTimeOffset? Date { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
         public List<CartProductVM>? Products { get; set; }
         private class Mapping : Profile
         {

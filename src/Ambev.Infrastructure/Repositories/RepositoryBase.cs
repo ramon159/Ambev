@@ -3,7 +3,6 @@ using Ambev.Infrastructure.Extensions;
 using Ambev.Shared.Common.Entities;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace Ambev.Infrastructure.Repositories
 {

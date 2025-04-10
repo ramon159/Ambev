@@ -1,4 +1,4 @@
-﻿using Ambev.Domain.Contracts.Dtos.Sales.Carts.Create;
+﻿using Ambev.Domain.Contracts.Dtos.Sales.Carts;
 using Ambev.Shared.Entities.Sales;
 using AutoMapper;
 using MediatR;
