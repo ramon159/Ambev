@@ -33,6 +33,8 @@ namespace Ambev.Infrastructure
             //);
 
             builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
             builder.Services.AddAuthorization();
 
             builder.Services.AddAuthentication()
