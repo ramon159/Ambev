@@ -3,6 +3,7 @@ using Ambev.Infrastructure.Extensions;
 using Ambev.Shared.Common.Entities;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace Ambev.Infrastructure.Repositories
 {
@@ -42,6 +43,7 @@ namespace Ambev.Infrastructure.Repositories
 
             var items = await query
                 .Paging(page, pageSize)
+                .AsNoTracking()
                 .ToListAsync();
             return (items, count);
         }
@@ -78,7 +80,10 @@ namespace Ambev.Infrastructure.Repositories
             var changes = await _context.SaveChangesAsync(cancellationToken);
             return changes > 0;
         }
-
+        public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
+        }
 
     }
 }

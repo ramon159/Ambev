@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Contracts\Dtos\Sales\Carts\Update\" />
     <Folder Include="Features\User\Commands\DeleteUser\" />
     <Folder Include="Features\User\Commands\UpdateUser\" />
     <Folder Include="Features\User\Validations\" />
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ambev.Infrastructure\Ambev.Infrastructure.csproj" />
     <ProjectReference Include="..\Ambev.Shared\Ambev.Shared.csproj" />
   </ItemGroup>
 

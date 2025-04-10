@@ -1,4 +1,4 @@
-﻿using Ambev.Domain.Contracts.Dtos.Sales.Carts;
+﻿using Ambev.Domain.Contracts.Dtos.Sales.Carts.Create;
 using FluentValidation;
 
 namespace Ambev.Domain.Validators
