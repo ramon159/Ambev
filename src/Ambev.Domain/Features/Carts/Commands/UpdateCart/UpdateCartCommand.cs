@@ -1,5 +1,6 @@
 ﻿using Ambev.Domain.Contracts.Dtos.Sales.Carts;
 using Ambev.Shared.Entities.Sales;
+using Ambev.Shared.Interfaces.Domain;
 using AutoMapper;
 using MediatR;
 

@@ -1,12 +1,10 @@
 ﻿using Ambev.Shared.Common.Entities;
-using Ambev.Shared.Entities.Authentication;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace Ambev.Infrastructure.Data
 {
-    public sealed class WriteDbContext : IdentityDbContext<User, Role, Guid>
+    public sealed class WriteDbContext : DbContext
     {
         public WriteDbContext(DbContextOptions options) : base(options)
         {

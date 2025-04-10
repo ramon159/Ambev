@@ -4,6 +4,7 @@ using Ambev.Domain.Features.Carts.Commands.UpdateCart;
 using Ambev.Domain.Features.Carts.Queries.GetCart;
 using Ambev.Domain.Features.Carts.Queries.GetCartWithPagination;
 using Ambev.Shared.Common.Http;
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,8 +12,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
     [ApiController]
+    [Route("api/[controller]")]
     public class CartsController : ControllerBase
     {
         private readonly IMediator _mediator;

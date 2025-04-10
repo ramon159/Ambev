@@ -5,13 +5,12 @@ using Ambev.Domain;
 using Ambev.Domain.Behaviours;
 using Ambev.Infrastructure;
 using Ambev.ServiceDefaults;
-using Ambev.Shared.Entities.Authentication;
 using AutoMapper.EquivalencyExpression;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
@@ -69,9 +68,7 @@ namespace Ambev.Api
 
 
             app.MapControllers();
-            app.MapGroup("api")
-                .MapGroup("authentication")
-                .MapIdentityApi<User>();
+
             app.UseExceptionHandler(options => { });
             app.UseMiddleware<TransactionMiddleware>();
 
@@ -80,13 +77,14 @@ namespace Ambev.Api
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<IdentityOptions>(options =>
+
+            services.AddHttpContextAccessor();
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
             {
-                options.SignIn.RequireConfirmedEmail = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
-                options.SignIn.RequireConfirmedAccount = false;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                options.SerializerSettings.Formatting = Formatting.Indented;
             });
-            services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen(options =>

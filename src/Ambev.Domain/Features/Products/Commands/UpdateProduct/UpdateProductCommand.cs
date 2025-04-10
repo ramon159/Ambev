@@ -1,5 +1,5 @@
 ﻿using Ambev.Domain.Contracts.Dtos.Sales.Products;
-using Ambev.Domain.Features.Carts.Commands.UpdateCart;
+using Ambev.Shared.Interfaces.Domain;
 using MediatR;
 
 namespace Ambev.Domain.Features.Products.Commands.UpdateProduct

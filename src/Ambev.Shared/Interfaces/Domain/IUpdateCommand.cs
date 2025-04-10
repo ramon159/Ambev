@@ -1,5 +1,4 @@
-﻿
-namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
+﻿namespace Ambev.Shared.Interfaces.Domain
 {
     public interface IUpdateCommand
     {

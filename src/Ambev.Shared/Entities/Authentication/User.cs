@@ -1,37 +1,18 @@
 ﻿using Ambev.Shared.Common.Entities;
-using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations.Schema;
+using Ambev.Shared.Enums;
+using Ambev.Shared.ValueObjects;
 
 namespace Ambev.Shared.Entities.Authentication
 {
-    public class User : IdentityUser<Guid>, IBaseEntity
+    public class User : BaseEntity
     {
-        public DateTimeOffset CreatedAt { get; set; }
-        public string? CreatedBy { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public string? UpdatedBy { get; set; }
-        public DateTimeOffset? DeletedAt { get; set; }
-        public string? DeletedBy { get; set; }
-        public bool IsDeleted { get; set; }
-
-        private readonly List<BaseEvent> _domainEvents = new();
-
-        [NotMapped]
-        public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
-
-        public void AddDomainEvent(BaseEvent domainEvent)
-        {
-            _domainEvents.Add(domainEvent);
-        }
-
-        public void RemoveDomainEvent(BaseEvent domainEvent)
-        {
-            _domainEvents.Remove(domainEvent);
-        }
-
-        public void ClearDomainEvents()
-        {
-            _domainEvents.Clear();
-        }
+        public required string Email { get; set; } = string.Empty;
+        public required string UserName { get; set; } = string.Empty;
+        public required string PasswordHash { get; set; } = string.Empty;
+        public Name? Name { get; set; }
+        public Address? Address { get; set; }
+        public string? Phone { get; set; } = string.Empty;
+        public required UserStatus Status { get; set; } = UserStatus.None;
+        public required UserRole Role { get; set; } = UserRole.None;
     }
 }

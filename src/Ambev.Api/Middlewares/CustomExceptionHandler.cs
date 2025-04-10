@@ -2,6 +2,10 @@
 using Ambev.Shared.Common.Http;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using NuGet.Protocol;
+using System.Net.Http;
+using System.Text;
 
 namespace Ambev.Api.Middlewares;
 
@@ -11,11 +15,12 @@ namespace Ambev.Api.Middlewares;
 public class CustomExceptionHandler : IExceptionHandler
 {
     private readonly Dictionary<Type, Func<HttpContext, Exception, Task>> _exceptionHandlers;
+    private readonly ILogger<CustomExceptionHandler> _logger;
 
     /// <summary>
     /// Constructor of CustomExceptionHandler
     /// </summary>
-    public CustomExceptionHandler()
+    public CustomExceptionHandler(ILogger<CustomExceptionHandler> logger)
     {
         _exceptionHandlers = new()
             {
@@ -23,8 +28,11 @@ public class CustomExceptionHandler : IExceptionHandler
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
+                { typeof(BusinessValidationException), HandleBusinessValidationException },
             };
+        this._logger=logger;
     }
+
 
     /// <summary>
     /// method to sync the correct exception to respective handler
@@ -51,12 +59,13 @@ public class CustomExceptionHandler : IExceptionHandler
     {
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
+
         await httpContext.Response.WriteAsJsonAsync(new ApiErrorResponse
         {
             Status = httpContext.Response.StatusCode,
             Type = "InternalServerError",
             Error = "An unexpected error occurred.",
-            Detail = ex.Message
+            Detail = "The service is not available at the moment. Please try again later"
         });
     }
 
@@ -113,4 +122,17 @@ public class CustomExceptionHandler : IExceptionHandler
             Type = "ForbiddenError"
         });
     }
+    private async Task HandleBusinessValidationException(HttpContext httpContext, Exception exception)
+    {
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+        await httpContext.Response.WriteAsJsonAsync(new ApiErrorResponse()
+        {
+            Status = httpContext.Response.StatusCode,
+            Type = "BusinessValidation",
+            Error = "BusinessValidationError",
+            Detail = exception.Message
+        });
+    }
+
 }

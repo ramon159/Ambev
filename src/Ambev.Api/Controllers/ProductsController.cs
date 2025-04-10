@@ -15,6 +15,7 @@ namespace Ambev.Api.Controllers
     /// Controller for Product
     /// </summary>
     [ApiVersion("1.0")]
+    [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase

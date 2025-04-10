@@ -1,43 +1,136 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ambev.Domain.Features.Users.Commands.CreateUser;
+using Ambev.Domain.Features.Users.Commands.DeleteUser;
+using Ambev.Domain.Features.Users.Commands.UpdateUser;
+using Ambev.Domain.Features.Users.Queries.GetUser;
+using Ambev.Domain.Features.Users.Queries.GetUsersWithPagination;
+using Ambev.Shared.Common.Http;
+using Asp.Versioning;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Ambev.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
     [ApiController]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        // GET: api/<UsersController>
+        private readonly IMediator _mediator;
+
+        public UsersController(IMediator mediator)
+        {
+            _mediator=mediator;
+        }
+
+        /// <summary>
+        /// Retrieve a list of users
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [ProducesResponseType(typeof(ApiResponseWithPagination<IReadOnlyCollection<GetUserResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAllUsers([FromQuery] GetAllUserCommand request, CancellationToken cancellationToken)
         {
-            return new string[] { "value1", "value2" };
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(new ApiResponseWithPagination<IReadOnlyCollection<GetUserResponse>>
+            {
+                Data = response.Items,
+                TotalItems=response.TotalItems,
+                CurrentPage=response.CurrentPage,
+                TotalPages=response.TotalPages,
+                HasNextPage=response.HasNextPage,
+                HasPreviousPage=response.HasPreviousPage
+            });
         }
 
-        // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        /// <summary>
+        /// Retrieve a specific user by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponseWithData<GetUserResponse>), StatusCodes.Status200OK)]
+
+        public async Task<IActionResult> GetUser([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            return "value";
+            var request = new GetUserCommand() { Id = id };
+
+            var response = await _mediator.Send(request, cancellationToken);
+
+            return Ok(new ApiResponseWithData<GetUserResponse>
+            {
+                Data = response,
+                Message = "User retrived sucessfully"
+            });
         }
 
-        // POST api/<UsersController>
+        /// <summary>
+        /// Add a new user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(typeof(ApiResponseWithData<CreateUserResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateProduc([FromBody] CreateUserCommand request, CancellationToken cancellationToken)
         {
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(new ApiResponseWithData<CreateUserResponse>
+            {
+                Data = response,
+                Message = "User created successfully"
+            });
         }
 
-        // PUT api/<UsersController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        /// <summary>
+        /// Update a specific user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPut("{id:guid}")]
+        [ProducesResponseType(typeof(ApiResponseWithData<UpdateUserResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateProduc([FromRoute] Guid id, [FromBody] UpdateUserCommand request, CancellationToken cancellationToken)
         {
-        }
+            request.SetId(id);
+            var response = await _mediator.Send(request, cancellationToken);
 
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+            return Ok(new ApiResponseWithData<UpdateUserResponse>
+            {
+                Data = response,
+                Message = "User updated successfully"
+            });
+        }
+        /// <summary>
+        /// Delete a specific user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:guid}")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteUser([FromRoute] Guid id, CancellationToken cancellationToken)
         {
+            var request = new DeleteUserCommand() { Id = id };
+
+            var response = await _mediator.Send(request, cancellationToken);
+
+            return Ok(new ApiResponse
+            {
+                Message = "User deleted successfully"
+            });
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using Ambev.Infrastructure.Data;
 using Ambev.Infrastructure.Interceptors;
 using Ambev.Infrastructure.Repositories;
-using Ambev.Shared.Entities.Authentication;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -33,17 +31,11 @@ namespace Ambev.Infrastructure
             //);
 
             builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-            builder.Services.AddAuthorization();
+            //builder.Services.AddAuthorization();
 
-            builder.Services.AddAuthentication()
-                .AddBearerToken(IdentityConstants.BearerScheme);
-
-            builder.Services.AddIdentityCore<User>()
-                .AddRoles<Role>()
-                .AddEntityFrameworkStores<WriteDbContext>()
-                .AddApiEndpoints();
+            //builder.Services.AddAuthentication()
+            //    .AddBearerToken(IdentityConstants.BearerScheme);
 
         }
     }
