@@ -1,5 +1,5 @@
 ﻿using Ambev.Domain.Contracts.Dtos.Sales.Products;
-using Ambev.Shared.Entities.Sales;
+using Ambev.Shared.Entities.Sales.Products;
 using AutoMapper;
 
 namespace Ambev.Domain.Features.Products.Commands.CreateProduct

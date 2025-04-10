@@ -1,6 +1,7 @@
 ﻿using Ambev.Shared.Entities.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace Ambev.Infrastructure.Configurations
 {
@@ -8,6 +9,7 @@ namespace Ambev.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+
             builder.HasKey(u => u.Id);
 
             builder.HasIndex(u => u.Email).IsUnique();
@@ -28,10 +30,10 @@ namespace Ambev.Infrastructure.Configurations
 
             builder.OwnsOne(u => u.Address, a =>
             {
-                a.Property(addr => addr.City).HasMaxLength(100).IsRequired();
-                a.Property(addr => addr.Street).HasMaxLength(200).IsRequired();
-                a.Property(addr => addr.Number).IsRequired();
-                a.Property(addr => addr.ZipCode).HasMaxLength(20).IsRequired();
+                a.Property(addr => addr.City).HasMaxLength(100);
+                a.Property(addr => addr.Street).HasMaxLength(200);
+                a.Property(addr => addr.Number).HasMaxLength(100);
+                a.Property(addr => addr.ZipCode).HasMaxLength(20);
                 a.Property(addr => addr.Latitude).HasMaxLength(50);
                 a.Property(addr => addr.Longitude).HasMaxLength(50);
                 a.WithOwner();

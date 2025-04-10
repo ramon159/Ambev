@@ -108,7 +108,7 @@ namespace Ambev.Api
                 options.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    Description = "Enter an authorization Bearer following this example: `Bearer YourTOken`",
+                    Description = "Enter an authorization bearer following this example: `Bearer YourTOken`",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"

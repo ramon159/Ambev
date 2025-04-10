@@ -1,6 +1,7 @@
 ﻿using Ambev.Shared.Common.Entities;
+using Ambev.Shared.Entities.Sales.Products;
 
-namespace Ambev.Shared.Entities.Sales
+namespace Ambev.Shared.Entities.Sales.Carts
 {
     public class CartProduct : BaseEntity
     {

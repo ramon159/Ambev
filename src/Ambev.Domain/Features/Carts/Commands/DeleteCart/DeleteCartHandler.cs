@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Entities.Sales;
+﻿using Ambev.Shared.Entities.Sales.Carts;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Ardalis.GuardClauses;
 using MediatR;

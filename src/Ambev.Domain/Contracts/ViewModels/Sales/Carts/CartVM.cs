@@ -1,5 +1,5 @@
 ﻿using Ambev.Domain.Contracts.ViewModels.Common;
-using Ambev.Shared.Entities.Sales;
+using Ambev.Shared.Entities.Sales.Carts;
 using AutoMapper;
 
 namespace Ambev.Domain.Contracts.ViewModels.Sales.Carts

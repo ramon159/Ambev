@@ -1,6 +1,6 @@
 ﻿using Ambev.Shared.Common.Entities;
 
-namespace Ambev.Shared.Entities.Sales
+namespace Ambev.Shared.Entities.Sales.Products
 {
     public class Product : BaseEntity
     {

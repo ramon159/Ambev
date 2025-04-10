@@ -2,7 +2,6 @@
 using Ambev.Shared.Enums;
 using Ambev.Shared.Interfaces;
 using Ambev.Shared.ValueObjects;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ambev.Shared.Entities.Authentication
 {

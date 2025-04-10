@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Entities.Sales;
+﻿using Ambev.Shared.Entities.Sales.Products;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using AutoMapper;
 using MediatR;

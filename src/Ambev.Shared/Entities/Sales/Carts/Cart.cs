@@ -1,7 +1,7 @@
 ﻿using Ambev.Shared.Common.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace Ambev.Shared.Entities.Sales
+namespace Ambev.Shared.Entities.Sales.Carts
 {
     public class Cart : BaseEntity
     {

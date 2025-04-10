@@ -1,5 +1,4 @@
-﻿using Ambev.Domain.Attributes.Security;
-using Ambev.Domain.Features.Users.Commands.CreateUser;
+﻿using Ambev.Domain.Features.Users.Commands.CreateUser;
 using Ambev.Domain.Features.Users.Commands.DeleteUser;
 using Ambev.Domain.Features.Users.Commands.UpdateUser;
 using Ambev.Domain.Features.Users.Queries.GetUser;
