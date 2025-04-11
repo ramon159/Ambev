@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.Api.Controllers
 {
+    /// <summary>
+    /// Authorization Controller
+    /// </summary>
     [ApiVersion("1.0")]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
     [ApiController]
@@ -16,12 +19,24 @@ namespace Ambev.Api.Controllers
     {
         private readonly IMediator _mediator;
 
+        /// <summary>
+        /// Authorization Controller constructor
+        /// </summary>
+        /// <param name="mediator"></param>
         public AuthController(IMediator mediator)
         {
             this._mediator=mediator;
         }
 
+        /// <summary>
+        /// For User authentication
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(ApiResponseWithData<AuthUserResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] AuthUserCommand request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);

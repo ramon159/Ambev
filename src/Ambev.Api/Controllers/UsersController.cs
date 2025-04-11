@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.Api.Controllers
 {
+    /// <summary>
+    /// Users controller
+    /// </summary>
     [ApiVersion("1.0")]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
     [ApiController]
@@ -20,6 +23,10 @@ namespace Ambev.Api.Controllers
     {
         private readonly IMediator _mediator;
 
+        /// <summary>
+        /// Users controller constructor
+        /// </summary>
+        /// <param name="mediator"></param>
         public UsersController(IMediator mediator)
         {
             _mediator=mediator;

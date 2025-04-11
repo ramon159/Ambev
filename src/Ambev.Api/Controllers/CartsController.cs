@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.Api.Controllers
 {
+    /// <summary>
+    /// Carts controller
+    /// </summary>
     [ApiVersion("1.0")]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
     [ApiController]
@@ -20,11 +23,21 @@ namespace Ambev.Api.Controllers
     {
         private readonly IMediator _mediator;
 
+        /// <summary>
+        /// Carts controller constructor
+        /// </summary>
+        /// <param name="mediator"></param>
         public CartsController(IMediator mediator)
         {
             _mediator=mediator;
         }
 
+        /// <summary>
+        /// Get carts with pagination
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAllCarts([FromQuery] GetAllCartsCommand request, CancellationToken cancellationToken)
         {
@@ -41,6 +54,12 @@ namespace Ambev.Api.Controllers
             });
         }
 
+        /// <summary>
+        /// get a cart
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -55,6 +74,12 @@ namespace Ambev.Api.Controllers
             });
         }
 
+        /// <summary>
+        /// Add new cart
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateCartCommand request, CancellationToken cancellationToken)
         {
@@ -66,6 +91,13 @@ namespace Ambev.Api.Controllers
             });
         }
 
+        /// <summary>
+        /// update a cart
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] UpdateCartCommand request, CancellationToken cancellationToken)
         {
@@ -79,6 +111,12 @@ namespace Ambev.Api.Controllers
             });
         }
 
+        /// <summary>
+        /// delete a cart
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {

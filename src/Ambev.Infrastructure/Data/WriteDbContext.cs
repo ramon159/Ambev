@@ -1,5 +1,4 @@
 ﻿using Ambev.Shared.Common.Entities;
-using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 

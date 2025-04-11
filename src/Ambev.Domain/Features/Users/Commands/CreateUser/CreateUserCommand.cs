@@ -1,6 +1,4 @@
-﻿using Ambev.Domain.Attributes.Security;
-using Ambev.Domain.Constants;
-using Ambev.Domain.Contracts.Dtos.Users;
+﻿using Ambev.Domain.Contracts.Dtos.Users;
 using Ambev.Domain.Entities.Authentication;
 using AutoMapper;
 using MediatR;
