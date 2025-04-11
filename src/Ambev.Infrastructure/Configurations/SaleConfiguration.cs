@@ -11,6 +11,9 @@ namespace Ambev.Infrastructure.Configurations
 
             builder.HasKey(s => s.Id);
 
+            builder.HasIndex(s => s.SaleNumber)
+                .IsUnique();
+
             builder.OwnsOne(s => s.ShippingAddress, a =>
             {
                 a.Property(addr => addr.City).HasMaxLength(100);

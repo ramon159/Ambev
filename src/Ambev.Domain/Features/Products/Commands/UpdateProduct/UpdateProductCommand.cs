@@ -15,7 +15,7 @@ namespace Ambev.Domain.Features.Products.Commands.UpdateProduct
             this.Id = Id;
         }
         public string Title { get; init; } = string.Empty;
-        public double Price { get; init; }
+        public decimal Price { get; init; }
         public string Description { get; init; } = string.Empty;
         public string Category { get; init; } = string.Empty;
         public string Image { get; init; } = string.Empty;

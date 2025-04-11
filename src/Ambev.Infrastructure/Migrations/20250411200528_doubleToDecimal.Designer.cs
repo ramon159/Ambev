@@ -3,6 +3,7 @@ using System;
 using Ambev.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    partial class WriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250411200528_doubleToDecimal")]
+    partial class doubleToDecimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -337,9 +340,8 @@ namespace Ambev.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("SaleNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("SaleNumber")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -362,9 +364,6 @@ namespace Ambev.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("SaleNumber")
-                        .IsUnique();
 
                     b.ToTable("Sale", (string)null);
                 });

@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using Ambev.Domain.Entities.Sales.Products;
+using Ambev.Shared.Interfaces.Infrastructure.Repositories;
+using FluentValidation;
 
 namespace Ambev.Domain.Contracts.Dtos.Sales
 {

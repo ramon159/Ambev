@@ -1,4 +1,5 @@
 ﻿using Ambev.Domain.Entities.Sales;
+using Ambev.Domain.Entities.Sales.Products;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Ardalis.GuardClauses;
 using AutoMapper;
@@ -12,12 +13,18 @@ namespace Ambev.Domain.Features.Sales.Commands.UpdateSale
         private readonly IMapper _mapper;
         private readonly IRepositoryBase<Sale> _saleRepository;
         private readonly IRepositoryBase<SaleItem> _saleItemRepository;
+        private readonly IRepositoryBase<Product> _productRepository;
 
-        public UpdateSaleHandler(IMapper mapper, IRepositoryBase<Sale> saleRepository, IRepositoryBase<SaleItem> saleItemRepository)
+        public UpdateSaleHandler(
+            IMapper mapper,
+            IRepositoryBase<Sale> saleRepository,
+            IRepositoryBase<SaleItem> saleItemRepository,
+            IRepositoryBase<Product> productRepository)
         {
             _mapper = mapper;
             _saleRepository=saleRepository;
             _saleItemRepository=saleItemRepository;
+            _productRepository=productRepository;
         }
 
         public async Task<UpdateSaleResponse> Handle(UpdateSaleCommand request, CancellationToken cancellationToken)
@@ -29,10 +36,16 @@ namespace Ambev.Domain.Features.Sales.Commands.UpdateSale
 
             Guard.Against.NotFound(request.Id, sale);
 
+            if (sale.Status != SaleStatus.PendingPayment)
+            {
+                throw new InvalidOperationException("Sales can only be modified while in 'Pending Payment' status");
+            }
+
             await SynchronizeSaleItems(request, sale);
+            await ValidateAndBindSaleItems(sale, cancellationToken);
+            sale.CalculateTotalAmount();
 
             await _saleRepository.SaveChangesAsync(cancellationToken);
-
             return _mapper.Map<UpdateSaleResponse>(sale);
 
         }
@@ -59,7 +72,6 @@ namespace Ambev.Domain.Features.Sales.Commands.UpdateSale
                     saleItem.Quantity = existingSaleItem.Quantity;
                     continue;
                 }
-
                 _saleItemRepository.DbSet.Remove(saleItem);
             }
 
@@ -68,6 +80,22 @@ namespace Ambev.Domain.Features.Sales.Commands.UpdateSale
                 .ToList();
 
             await _saleItemRepository.DbSet.AddRangeAsync(productsToAdd);
+        }
+        private async Task ValidateAndBindSaleItems(Sale sale, CancellationToken cancellationToken)
+        {
+            var productIds = sale.Items.Select(i => i.ProductId).Distinct().ToList();
+
+            var products = await _productRepository.DbSet
+                .AsNoTracking()
+                .Where(p => productIds.Contains(p.Id))
+                .ToListAsync(cancellationToken);
+
+            foreach (var item in sale.Items)
+            {
+                var product = products.FirstOrDefault(p => p.Id == item.ProductId);
+                Guard.Against.Null(product, nameof(product), $"Product {item.ProductId} not found");
+                item.SetProduct(product);
+            }
         }
     }
 }

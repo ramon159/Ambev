@@ -1,11 +1,15 @@
 ﻿using Ambev.Domain.Entities.Authentication;
 using Ambev.Domain.Entities.Sales;
+using Ambev.Domain.Entities.Sales.Carts;
 using Ambev.Domain.Entities.Sales.Products;
+using Ambev.Shared.Common.Exceptions;
 using Ambev.Shared.Interfaces;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Ardalis.GuardClauses;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace Ambev.Domain.Features.Sales.Commands.CreateSale
 {
@@ -28,27 +32,50 @@ namespace Ambev.Domain.Features.Sales.Commands.CreateSale
 
         public async Task<CreateSaleResponse> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
         {
-            Guid userId;
-            Guid.TryParse(_user.Id, out userId);
-
-            Guard.Against.Null(userId, "invalid user id");
-
-            var user = await _userRepository.GetByIdAsync(userId);
-
-            Guard.Against.NotFound(userId, user);
-
             var sale = _mapper.Map<Sale>(request);
+            var user = await GetAuthenticatedUser(cancellationToken);
 
-            sale.CustomerId = userId;
+            sale.GenerateSaleNumber();
+            sale.CustomerId = user.Id;
             sale.Branch="Online";
             sale.Status = SaleStatus.PendingPayment;
             sale.ShippingAddress = user.Address;
 
-            // forcing bug
-            sale.Items.ForEach(item => item.ProductId = Guid.NewGuid());
+
+            await ValidateAndBindSaleItems(sale, cancellationToken);
+
+            sale.CalculateTotalAmount();
 
             var result = await _saleRepository.AddAsync(sale, cancellationToken);
             return _mapper.Map<CreateSaleResponse>(result);
         }
+
+        private async Task ValidateAndBindSaleItems(Sale sale, CancellationToken cancellationToken)
+        {
+            var productIds = sale.Items.Select(i => i.ProductId).Distinct().ToList();
+
+            var products = await _productRepository.DbSet
+                .AsNoTracking()
+                .Where(p => productIds.Contains(p.Id))
+                .ToListAsync(cancellationToken);
+
+            foreach (var item in sale.Items)
+            {
+                var product = products.FirstOrDefault(p => p.Id == item.ProductId);
+                Guard.Against.Null(product, nameof(product), $"Product {item.ProductId} not found");
+                item.SetProduct(product);
+            }
+        }
+
+        private async Task<User> GetAuthenticatedUser(CancellationToken cancellationToken)
+        {
+            Guard.Against.NullOrEmpty(_user.Id, message: "need an authenticated user");
+            var userId = Guid.Parse(_user.Id);
+
+            var user = await _userRepository.GetByIdAsync(userId, cancellationToken: cancellationToken);
+            Guard.Against.NotFound(userId, user);
+            return user;
+        }
+
     }
 }

@@ -32,5 +32,12 @@ namespace Ambev.Domain.Entities.Sales
                 _ => 0m
             };
         }
+
+        public void SetProduct(Product product)
+        {
+            this.ProductId = product.Id;
+            this.ProductPrice = product.Price;
+            this.ProductName = product.Title;
+        }
     }
 }

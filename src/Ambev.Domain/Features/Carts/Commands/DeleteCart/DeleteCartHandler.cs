@@ -16,15 +16,15 @@ namespace Ambev.Domain.Features.Carts.Commands.DeleteCart
 
         public async Task<DeleteCartResponse> Handle(DeleteCartCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _cartRepository.GetByIdAsync(
+            var cart = await _cartRepository.GetByIdAsync(
                 request.Id,
                 includes: c => c.Include(c => c.Products),
                 cancellationToken: cancellationToken
                 );
 
-            Guard.Against.NotFound(request.Id, entity);
+            Guard.Against.NotFound(request.Id, cart);
 
-            await _cartRepository.DeleteAsync(entity);
+            await _cartRepository.DeleteAsync(cart);
 
             return new DeleteCartResponse { Success = true };
         }
