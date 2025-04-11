@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ambev.Domain.Features.Users.Commands.DeleteUser
 {
-    [Authorize(Roles = Roles.Customer)]
+    [Authorize(Roles = Roles.Admin)]
     public class DeleteUserCommand : IRequest<DeleteUserResponse>
     {
         public Guid Id { get; set; }

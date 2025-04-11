@@ -2,7 +2,7 @@
 {
     public abstract class Roles
     {
-        public const string Customer = "1";
-        public const string Admin = "2";
+        public const string Customer = "Customer";
+        public const string Admin = "Admin";
     }
 }

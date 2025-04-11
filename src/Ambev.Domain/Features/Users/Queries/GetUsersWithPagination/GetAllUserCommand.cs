@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Ambev.Domain.Features.Users.Queries.GetUsersWithPagination
 {
-    [Authorize(Roles = Roles.Customer)]
+    [Authorize(Roles = Roles.Admin)]
     public class GetAllUserCommand : QueryParameters, IRequest<PaginedList<GetUserResponse>>
     {
     }

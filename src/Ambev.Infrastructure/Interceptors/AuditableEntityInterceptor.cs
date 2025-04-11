@@ -52,18 +52,25 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
                 entry.Entity.UpdatedAt = utcNow;
             }
 
-            if (entry.State is EntityState.Deleted)
+            if (entry.State is EntityState.Deleted || entry.HasDeletedOwnedEntities())
             {
                 entry.Entity.DeletedBy = _user.Id;
                 entry.Entity.DeletedAt = utcNow;
                 entry.Entity.IsDeleted = true;
                 entry.State = EntityState.Modified;
+
+                foreach (var e in entry.GetDeletedOwnedEntities())
+                {
+                    if (e.TargetEntry == null) continue;
+
+                    e.TargetEntry.State = EntityState.Modified;
+                }
             }
 
         }
     }
-}
 
+}
 public static class Extensions
 {
     public static bool HasChangedOwnedEntities(this EntityEntry entry) =>
@@ -71,4 +78,13 @@ public static class Extensions
             r.TargetEntry != null &&
             r.TargetEntry.Metadata.IsOwned() &&
             (r.TargetEntry.State == EntityState.Added || r.TargetEntry.State == EntityState.Modified));
+    public static bool HasDeletedOwnedEntities(this EntityEntry entry) =>
+        entry.References.Any(r =>
+            r.TargetEntry != null &&
+            r.TargetEntry.Metadata.IsOwned() &&
+            (r.TargetEntry.State == EntityState.Deleted));
+    public static List<ReferenceEntry> GetDeletedOwnedEntities(this EntityEntry entry)
+    {
+        return entry.References.Where(r => r.TargetEntry != null && r.TargetEntry.Metadata.IsOwned() && (r.TargetEntry.State == EntityState.Deleted)).ToList();
+    }
 }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ambev.Domain.Features.Users.Queries.GetUser
 {
-    [Authorize(Roles = Roles.Customer)]
+    [Authorize(Roles = Roles.Admin)]
     public class GetUserCommand : IRequest<GetUserResponse>
     {
         public Guid Id { get; set; }
