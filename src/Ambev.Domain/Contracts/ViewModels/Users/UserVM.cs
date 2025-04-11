@@ -1,7 +1,7 @@
 ﻿using Ambev.Domain.Contracts.ViewModels.Common;
-using Ambev.Shared.Entities.Authentication;
+using Ambev.Domain.Entities.Authentication;
+using Ambev.Domain.ValueObjects;
 using Ambev.Shared.Enums;
-using Ambev.Shared.ValueObjects;
 using AutoMapper;
 
 namespace Ambev.Domain.Contracts.ViewModels.Users

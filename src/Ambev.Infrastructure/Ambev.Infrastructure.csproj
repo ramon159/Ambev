@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ambev.Domain\Ambev.Domain.csproj" />
     <ProjectReference Include="..\Ambev.Shared\Ambev.Shared.csproj" />
   </ItemGroup>
 

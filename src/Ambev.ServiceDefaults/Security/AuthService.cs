@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Entities.Authentication;
+﻿using Ambev.Domain.Entities.Authentication;
 using Ambev.Shared.Enums;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Ambev.Shared.Interfaces.Infrastructure.Security;

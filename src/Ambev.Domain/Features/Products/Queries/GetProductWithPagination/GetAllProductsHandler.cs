@@ -1,6 +1,6 @@
-﻿using Ambev.Domain.Features.Products.Queries.GetProduct;
+﻿using Ambev.Domain.Entities.Sales.Products;
+using Ambev.Domain.Features.Products.Queries.GetProduct;
 using Ambev.Shared.Common.Http;
-using Ambev.Shared.Entities.Sales.Products;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using AutoMapper;
 using MediatR;

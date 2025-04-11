@@ -1,5 +1,5 @@
 ﻿using Ambev.Domain.Contracts.ViewModels.Sales.Carts;
-using Ambev.Shared.Entities.Sales.Carts;
+using Ambev.Domain.Entities.Sales.Carts;
 using AutoMapper;
 
 namespace Ambev.Domain.Features.Carts.Queries.GetCart

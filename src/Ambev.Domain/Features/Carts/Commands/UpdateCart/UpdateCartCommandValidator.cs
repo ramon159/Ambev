@@ -1,4 +1,4 @@
-﻿using Ambev.Domain.Validators;
+﻿using Ambev.Domain.Contracts.Dtos.Sales.Carts;
 using FluentValidation;
 
 namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
@@ -7,13 +7,6 @@ namespace Ambev.Domain.Features.Carts.Commands.UpdateCart
     {
         public UpdateCartCommandValidator()
         {
-            RuleFor(x => x.Products)
-                .Cascade(CascadeMode.Stop)
-                .NotNull()
-                .NotEmpty()
-                .Must(products => products.Select(p => p.ProductId).Distinct().Count() == products.Count())
-                .WithMessage($"Each product must be unique");
-
             RuleFor(x => x)
                 .SetValidator(new CartDtoValidator());
         }

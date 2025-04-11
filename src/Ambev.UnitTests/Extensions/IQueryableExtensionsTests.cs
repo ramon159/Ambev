@@ -16,11 +16,11 @@ namespace Ambev.UnitTests.Extensions
         {
             // Arrange
             var produtos = new List<Produto>
-        {
-            new Produto { Categoria = "Eletrônicos", Preco = 1000, Titulo = "TV" },
-            new Produto { Categoria = "Roupas", Preco = 50, Titulo = "Camiseta" },
-            new Produto { Categoria = "Eletrônicos", Preco = 500, Titulo = "Rádio" }
-        }.AsQueryable();
+            {
+                new Produto { Categoria = "Eletrônicos", Preco = 1000, Titulo = "TV" },
+                new Produto { Categoria = "Roupas", Preco = 50, Titulo = "Camiseta" },
+                new Produto { Categoria = "Eletrônicos", Preco = 500, Titulo = "Rádio" }
+            }.AsQueryable();
 
             var filtros = new Dictionary<string, string>
         {

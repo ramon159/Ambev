@@ -1,4 +1,5 @@
 ﻿using Ambev.Shared.Common.Entities;
+using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -44,7 +45,7 @@ namespace Ambev.Infrastructure.Data
 
         private static void GenerateTablesFromAssembly(ModelBuilder builder)
         {
-            var entitiesAssembly = Assembly.GetAssembly(typeof(IBaseEntity));
+            var entitiesAssembly = Assembly.GetAssembly(typeof(Domain.DependencyInjection));
 
             Guard.Against.Null(entitiesAssembly, "entities assembly is null");
 
@@ -55,6 +56,7 @@ namespace Ambev.Infrastructure.Data
                     !t.IsAbstract &&
                     !t.IsInterface
                 );
+            Guard.Against.NullOrEmpty(entityTypes, "no entities was loaded");
 
             foreach (var entityType in entityTypes)
             {

@@ -1,5 +1,5 @@
 ﻿using Ambev.Domain.Contracts.ViewModels.Users;
-using Ambev.Shared.Entities.Authentication;
+using Ambev.Domain.Entities.Authentication;
 using AutoMapper;
 
 namespace Ambev.Domain.Features.Users.Queries.GetUser

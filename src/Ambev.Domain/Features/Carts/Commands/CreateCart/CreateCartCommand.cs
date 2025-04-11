@@ -1,5 +1,5 @@
 ﻿using Ambev.Domain.Contracts.Dtos.Sales.Carts;
-using Ambev.Shared.Entities.Sales.Products;
+using Ambev.Domain.Entities.Sales.Carts;
 using AutoMapper;
 using MediatR;
 
@@ -11,7 +11,7 @@ namespace Ambev.Domain.Features.Carts.Commands.CreateCart
         {
             public Mapping()
             {
-                CreateMap<CreateCartCommand, Product>().ReverseMap();
+                CreateMap<CreateCartCommand, Cart>().ReverseMap();
             }
         }
     }

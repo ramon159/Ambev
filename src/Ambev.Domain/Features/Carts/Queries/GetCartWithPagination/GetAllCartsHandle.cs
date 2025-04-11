@@ -1,6 +1,6 @@
-﻿using Ambev.Domain.Features.Carts.Queries.GetCart;
+﻿using Ambev.Domain.Entities.Sales.Carts;
+using Ambev.Domain.Features.Carts.Queries.GetCart;
 using Ambev.Shared.Common.Http;
-using Ambev.Shared.Entities.Sales.Carts;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using AutoMapper;
 using MediatR;

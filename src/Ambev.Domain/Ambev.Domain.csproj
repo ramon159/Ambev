@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ambev.Infrastructure\Ambev.Infrastructure.csproj" />
     <ProjectReference Include="..\Ambev.Shared\Ambev.Shared.csproj" />
   </ItemGroup>
 

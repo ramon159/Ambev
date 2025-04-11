@@ -1,7 +1,6 @@
-﻿using Ambev.Shared.Entities.Authentication;
+﻿using Ambev.Domain.Entities.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace Ambev.Infrastructure.Configurations
 {

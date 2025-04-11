@@ -1,6 +1,6 @@
-﻿using Ambev.Domain.Features.Users.Queries.GetUser;
+﻿using Ambev.Domain.Entities.Authentication;
+using Ambev.Domain.Features.Users.Queries.GetUser;
 using Ambev.Shared.Common.Http;
-using Ambev.Shared.Entities.Authentication;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using AutoMapper;
 using MediatR;

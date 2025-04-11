@@ -1,5 +1,5 @@
-﻿using Ambev.Shared.Common.Exceptions;
-using Ambev.Shared.Entities.Authentication;
+﻿using Ambev.Domain.Entities.Authentication;
+using Ambev.Shared.Common.Exceptions;
 using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Ambev.Shared.Interfaces.Infrastructure.Security;
 using Ardalis.GuardClauses;
