@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ambev.Api.Controllers
 {
     /// <summary>
-    /// Controller for Product
+    /// Products controller
     /// </summary>
     [ApiVersion("1.0")]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]

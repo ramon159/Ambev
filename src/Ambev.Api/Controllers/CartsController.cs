@@ -24,7 +24,7 @@ namespace Ambev.Api.Controllers
         private readonly IMediator _mediator;
 
         /// <summary>
-        /// Carts controller constructor
+        /// constructor of CartsController
         /// </summary>
         /// <param name="mediator"></param>
         public CartsController(IMediator mediator)
@@ -33,7 +33,7 @@ namespace Ambev.Api.Controllers
         }
 
         /// <summary>
-        /// Get carts with pagination
+        /// Retrieve a list of carts
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
@@ -55,7 +55,7 @@ namespace Ambev.Api.Controllers
         }
 
         /// <summary>
-        /// get a cart
+        /// Retrieve a specific cart by ID
         /// </summary>
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
@@ -75,7 +75,7 @@ namespace Ambev.Api.Controllers
         }
 
         /// <summary>
-        /// Add new cart
+        /// Add a new cart
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
@@ -92,7 +92,7 @@ namespace Ambev.Api.Controllers
         }
 
         /// <summary>
-        /// update a cart
+        /// Update a specific cart
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -112,7 +112,7 @@ namespace Ambev.Api.Controllers
         }
 
         /// <summary>
-        /// delete a cart
+        /// Delete a specific cart
         /// </summary>
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
