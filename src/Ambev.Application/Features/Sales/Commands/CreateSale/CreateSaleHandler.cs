@@ -32,7 +32,6 @@ namespace Ambev.Application.Features.Sales.Commands.CreateSale
             var sale = _mapper.Map<Sale>(request);
             var user = await GetAuthenticatedUser(cancellationToken);
 
-            sale.GenerateSaleNumber();
             sale.CustomerId = user.Id;
             sale.Branch="Online";
             sale.Status = SaleStatus.PendingPayment;

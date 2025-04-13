@@ -7,7 +7,12 @@ namespace Ambev.Domain.Entities.Sales
 {
     public class Sale : BaseEntity
     {
-        public string SaleNumber { get; private set; } = string.Empty;
+        public Sale()
+        {
+            SaleNumber = GenerateSaleNumber();
+        }
+
+        public string SaleNumber { get; private set; }
         public Guid? CustomerId { get; set; }
 
         [ForeignKey("CustomerId")]
@@ -26,17 +31,15 @@ namespace Ambev.Domain.Entities.Sales
             TotalDiscount = Items.Sum(i => i.Quantity * i.Discount);
             TotalAmount = SubTotal - TotalDiscount;
         }
-
-        public void GenerateSaleNumber(string branchCode = "00")
+        public string GenerateSaleNumber()
         {
             var guid = Guid.NewGuid();
             var bytes = guid.ToByteArray();
 
-            // Pega duas partes de 7 dígitos cada a partir dos bytes
             var part1 = BitConverter.ToUInt32(bytes, 0) % 10_000_000;
             var part2 = BitConverter.ToUInt32(bytes, 4) % 10_000_000;
 
-            SaleNumber = $"{branchCode}-{part1:D7}-{part2:D7}";
+            return $"{part1:D7}-{part2:D7}";
         }
     }
 }
