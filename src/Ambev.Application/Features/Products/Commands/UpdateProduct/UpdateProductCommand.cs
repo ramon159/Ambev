@@ -1,7 +1,7 @@
 ﻿using Ambev.Application.Contracts.Dtos.Sales.Products;
 using Ambev.Domain.Attributes.Security;
 using Ambev.Domain.Constants;
-using Ambev.Domain.Interfaces.Domain;
+using Ambev.Domain.Interfaces.Application;
 using MediatR;
 
 namespace Ambev.Application.Features.Products.Commands.UpdateProduct

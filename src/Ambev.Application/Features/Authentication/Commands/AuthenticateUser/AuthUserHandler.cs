@@ -24,7 +24,7 @@ namespace Ambev.Application.Features.Authentication.Commands.AuthenticateUser
         {
             var defaultMessage = "The username or password is Incorrect";
 
-            var user = await _userRepository.DbSet.FirstOrDefaultAsync(u => u.UserName == request.Username);
+            var user = await _userRepository.DbSet.AsTracking().FirstOrDefaultAsync(u => u.UserName == request.Username);
             if (user == null)
                 throw new AuthenticationException(defaultMessage);
 

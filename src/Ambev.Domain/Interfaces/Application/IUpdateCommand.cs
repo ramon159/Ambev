@@ -1,4 +1,4 @@
-﻿namespace Ambev.Domain.Interfaces.Domain
+﻿namespace Ambev.Domain.Interfaces.Application
 {
     public interface IUpdateCommand
     {

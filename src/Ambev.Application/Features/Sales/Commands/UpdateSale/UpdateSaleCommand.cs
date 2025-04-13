@@ -1,6 +1,6 @@
 ﻿using Ambev.Application.Contracts.Dtos.Sales;
 using Ambev.Domain.Entities.Sales;
-using Ambev.Domain.Interfaces.Domain;
+using Ambev.Domain.Interfaces.Application;
 using AutoMapper;
 using MediatR;
 
