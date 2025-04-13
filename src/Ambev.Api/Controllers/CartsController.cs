@@ -1,9 +1,9 @@
-﻿using Ambev.Domain.Features.Carts.Commands.CreateCart;
-using Ambev.Domain.Features.Carts.Commands.DeleteCart;
-using Ambev.Domain.Features.Carts.Commands.UpdateCart;
-using Ambev.Domain.Features.Carts.Queries.GetCart;
-using Ambev.Domain.Features.Carts.Queries.GetCartWithPagination;
-using Ambev.Shared.Common.Http;
+﻿using Ambev.Application.Features.Carts.Commands.CreateCart;
+using Ambev.Application.Features.Carts.Commands.DeleteCart;
+using Ambev.Application.Features.Carts.Commands.UpdateCart;
+using Ambev.Application.Features.Carts.Queries.GetCart;
+using Ambev.Application.Features.Carts.Queries.GetCartWithPagination;
+using Ambev.Application.Models.Http;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,6 @@
-﻿using Ambev.Domain.Entities.Authentication;
+﻿using Ambev.Domain.Common.Entities;
+using Ambev.Domain.Entities.Authentication;
 using Ambev.Domain.ValueObjects;
-using Ambev.Shared.Common.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ambev.Domain.Entities.Sales

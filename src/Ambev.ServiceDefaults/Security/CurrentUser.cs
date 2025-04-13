@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Interfaces;
+﻿using Ambev.Domain.Interfaces.Infrastructure.Security;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 

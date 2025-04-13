@@ -1,7 +1,7 @@
-﻿using Ambev.Infrastructure.Data;
+﻿using Ambev.Domain.Common.Entities;
+using Ambev.Domain.Interfaces.Infrastructure.Repositories;
+using Ambev.Infrastructure.Data;
 using Ambev.Infrastructure.Extensions;
-using Ambev.Shared.Common.Entities;
-using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Infrastructure.Repositories

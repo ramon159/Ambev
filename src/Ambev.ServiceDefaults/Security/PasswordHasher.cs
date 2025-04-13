@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Interfaces.Infrastructure.Security;
+﻿using Ambev.Domain.Interfaces.Infrastructure.Security;
 
 namespace Ambev.ServiceDefaults.Security
 {

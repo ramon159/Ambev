@@ -1,7 +1,7 @@
 ﻿using Ambev.Domain.Entities.Authentication;
-using Ambev.Shared.Enums;
-using Ambev.Shared.Interfaces.Infrastructure.Repositories;
-using Ambev.Shared.Interfaces.Infrastructure.Security;
+using Ambev.Domain.Enums;
+using Ambev.Domain.Interfaces.Infrastructure.Repositories;
+using Ambev.Domain.Interfaces.Infrastructure.Security;
 
 namespace Ambev.ServiceDefaults.Security
 {

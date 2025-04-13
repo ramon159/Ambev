@@ -1,6 +1,5 @@
 ﻿using Ambev.Infrastructure.Extensions;
-using Ambev.Shared.Helpers;
-using Ambev.Shared.Models;
+using Ambev.Infrastructure.Helpers;
 
 namespace Ambev.UnitTests.Helpers
 {

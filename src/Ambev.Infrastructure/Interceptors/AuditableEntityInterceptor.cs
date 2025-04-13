@@ -1,5 +1,5 @@
-﻿using Ambev.Shared.Common.Entities;
-using Ambev.Shared.Interfaces;
+﻿using Ambev.Domain.Common.Entities;
+using Ambev.Domain.Interfaces.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;

@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Common.Entities;
+﻿using Ambev.Domain.Common.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ambev.Domain.Entities.Sales.Carts

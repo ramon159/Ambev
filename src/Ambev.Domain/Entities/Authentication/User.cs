@@ -1,7 +1,7 @@
-﻿using Ambev.Domain.ValueObjects;
-using Ambev.Shared.Common.Entities;
-using Ambev.Shared.Enums;
-using Ambev.Shared.Interfaces;
+﻿using Ambev.Domain.Common.Entities;
+using Ambev.Domain.Enums;
+using Ambev.Domain.Interfaces.Infrastructure.Security;
+using Ambev.Domain.ValueObjects;
 
 namespace Ambev.Domain.Entities.Authentication
 {

@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Common.Entities;
+﻿using Ambev.Domain.Common.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 

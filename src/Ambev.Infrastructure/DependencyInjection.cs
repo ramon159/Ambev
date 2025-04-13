@@ -1,7 +1,7 @@
-﻿using Ambev.Infrastructure.Data;
+﻿using Ambev.Domain.Interfaces.Infrastructure.Repositories;
+using Ambev.Infrastructure.Data;
 using Ambev.Infrastructure.Interceptors;
 using Ambev.Infrastructure.Repositories;
-using Ambev.Shared.Interfaces.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;

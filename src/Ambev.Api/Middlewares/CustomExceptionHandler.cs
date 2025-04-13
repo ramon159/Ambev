@@ -1,5 +1,5 @@
-﻿using Ambev.Shared.Common.Exceptions;
-using Ambev.Shared.Common.Http;
+﻿using Ambev.Application.Exceptions;
+using Ambev.Application.Models.Http;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Diagnostics;
 

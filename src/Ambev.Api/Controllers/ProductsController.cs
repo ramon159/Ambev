@@ -1,10 +1,10 @@
-﻿using Ambev.Domain.Features.Products.Commands.CreateProduct;
-using Ambev.Domain.Features.Products.Commands.DeleteProduct;
-using Ambev.Domain.Features.Products.Commands.UpdateProduct;
-using Ambev.Domain.Features.Products.Queries.GetProduct;
-using Ambev.Domain.Features.Products.Queries.GetProductCategories;
-using Ambev.Domain.Features.Products.Queries.GetProductWithPagination;
-using Ambev.Shared.Common.Http;
+﻿using Ambev.Application.Features.Products.Commands.CreateProduct;
+using Ambev.Application.Features.Products.Commands.DeleteProduct;
+using Ambev.Application.Features.Products.Commands.UpdateProduct;
+using Ambev.Application.Features.Products.Queries.GetProduct;
+using Ambev.Application.Features.Products.Queries.GetProductCategories;
+using Ambev.Application.Features.Products.Queries.GetProductWithPagination;
+using Ambev.Application.Models.Http;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

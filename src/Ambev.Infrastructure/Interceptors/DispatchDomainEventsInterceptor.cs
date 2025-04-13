@@ -1,4 +1,4 @@
-﻿using Ambev.Shared.Common.Entities;
+﻿using Ambev.Domain.Common.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;

@@ -1,5 +1,4 @@
-﻿using Ambev.Shared.Interfaces;
-using Ambev.Shared.Interfaces.Infrastructure.Security;
+﻿using Ambev.Domain.Interfaces.Infrastructure.Security;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;

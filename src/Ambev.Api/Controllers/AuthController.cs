@@ -1,5 +1,5 @@
-﻿using Ambev.Domain.Features.Authentication.Commands.AuthenticateUser;
-using Ambev.Shared.Common.Http;
+﻿using Ambev.Application.Features.Authentication.Commands.AuthenticateUser;
+using Ambev.Application.Models.Http;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -1,8 +1,8 @@
 
 using Ambev.Api.Middlewares;
 using Ambev.Api.OpenApi;
+using Ambev.Application.Behaviours;
 using Ambev.Domain;
-using Ambev.Domain.Behaviours;
 using Ambev.Infrastructure;
 using Ambev.ServiceDefaults;
 using AutoMapper.EquivalencyExpression;
@@ -142,15 +142,15 @@ namespace Ambev.Api
             {
                 cfg.AddCollectionMappers();
             }, typeof(Program).Assembly,
-                typeof(Domain.DependencyInjection).Assembly,
-                typeof(Shared.Assembly).Assembly);
+                typeof(Application.DependencyInjection).Assembly
+                );
 
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(
                     Assembly.GetExecutingAssembly(),
                     typeof(Program).Assembly,
-                    typeof(Domain.DependencyInjection).Assembly
+                    typeof(Application.DependencyInjection).Assembly
                     );
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));

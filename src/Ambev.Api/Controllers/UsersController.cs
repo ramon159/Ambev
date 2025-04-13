@@ -1,9 +1,9 @@
-﻿using Ambev.Domain.Features.Users.Commands.CreateUser;
-using Ambev.Domain.Features.Users.Commands.DeleteUser;
-using Ambev.Domain.Features.Users.Commands.UpdateUser;
-using Ambev.Domain.Features.Users.Queries.GetUser;
-using Ambev.Domain.Features.Users.Queries.GetUsersWithPagination;
-using Ambev.Shared.Common.Http;
+﻿using Ambev.Application.Features.Users.Commands.CreateUser;
+using Ambev.Application.Features.Users.Commands.DeleteUser;
+using Ambev.Application.Features.Users.Commands.UpdateUser;
+using Ambev.Application.Features.Users.Queries.GetUser;
+using Ambev.Application.Features.Users.Queries.GetUsersWithPagination;
+using Ambev.Application.Models.Http;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

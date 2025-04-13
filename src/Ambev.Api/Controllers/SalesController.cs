@@ -1,9 +1,9 @@
-﻿using Ambev.Domain.Features.Sales.Commands.CreateSale;
-using Ambev.Domain.Features.Sales.Commands.DeleteSale;
-using Ambev.Domain.Features.Sales.Commands.UpdateSale;
-using Ambev.Domain.Features.Sales.Queries.GetSale;
-using Ambev.Domain.Features.Sales.Queries.GetSaleWithPagination;
-using Ambev.Shared.Common.Http;
+﻿using Ambev.Application.Features.Sales.Commands.CreateSale;
+using Ambev.Application.Features.Sales.Commands.DeleteSale;
+using Ambev.Application.Features.Sales.Commands.UpdateSale;
+using Ambev.Application.Features.Sales.Queries.GetSale;
+using Ambev.Application.Features.Sales.Queries.GetSaleWithPagination;
+using Ambev.Application.Models.Http;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

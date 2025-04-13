@@ -7,18 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ambev.Domain\Ambev.Domain.csproj" />
-    <ProjectReference Include="..\Ambev.Shared\Ambev.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dto\User\" />
-    <Folder Include="Mappings\" />
   </ItemGroup>
 
 </Project>

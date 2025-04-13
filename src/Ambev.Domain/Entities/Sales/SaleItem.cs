@@ -1,5 +1,5 @@
-﻿using Ambev.Domain.Entities.Sales.Products;
-using Ambev.Shared.Common.Entities;
+﻿using Ambev.Domain.Common.Entities;
+using Ambev.Domain.Entities.Sales.Products;
 
 namespace Ambev.Domain.Entities.Sales
 {
