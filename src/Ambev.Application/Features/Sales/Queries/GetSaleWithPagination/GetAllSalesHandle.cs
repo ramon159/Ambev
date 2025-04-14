@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Application.Features.Sales.Queries.GetSaleWithPagination
 {
-    public class GetAllSalesHandle : IRequestHandler<GetAllSalesCommand, PaginedList<GetSaleResponse>>
+    public class GetAllSalesHandle : IRequestHandler<GetAllSalesQuery, PaginedList<GetSaleResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryBase<Sale> _saleRepository;
@@ -18,7 +18,7 @@ namespace Ambev.Application.Features.Sales.Queries.GetSaleWithPagination
             _mapper=mapper;
             _saleRepository=saleRepository;
         }
-        public async Task<PaginedList<GetSaleResponse>> Handle(GetAllSalesCommand request, CancellationToken cancellationToken)
+        public async Task<PaginedList<GetSaleResponse>> Handle(GetAllSalesQuery request, CancellationToken cancellationToken)
         {
             var paginedResult = await _saleRepository.GetAllAsync(
                 page: request.Page,

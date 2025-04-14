@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Application.Features.Carts.Queries.GetCart
 {
-    public class GetCartHandle : IRequestHandler<GetCartCommand, GetCartResponse>
+    public class GetCartHandle : IRequestHandler<GetCartQuery, GetCartResponse>
     {
 
         private readonly IRepositoryBase<Cart> _cartRepository;
@@ -19,7 +19,7 @@ namespace Ambev.Application.Features.Carts.Queries.GetCart
             _mapper=mapper;
         }
 
-        public async Task<GetCartResponse> Handle(GetCartCommand request, CancellationToken cancellationToken)
+        public async Task<GetCartResponse> Handle(GetCartQuery request, CancellationToken cancellationToken)
         {
             var entity = await _cartRepository.GetByIdAsync(
                 request.Id,

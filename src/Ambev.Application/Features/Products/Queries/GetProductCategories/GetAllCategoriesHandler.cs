@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Application.Features.Products.Queries.GetProductCategories
 {
-    public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesCommand, List<string>>
+    public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, List<string>>
     {
         private readonly IRepositoryBase<Product> _productRepository;
 
@@ -14,7 +14,7 @@ namespace Ambev.Application.Features.Products.Queries.GetProductCategories
             _productRepository=productRepository;
         }
 
-        public async Task<List<string>> Handle(GetAllCategoriesCommand request, CancellationToken cancellationToken)
+        public async Task<List<string>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
             return await _productRepository.DbSet.Select(p => p.Category).Distinct().ToListAsync(cancellationToken);
         }

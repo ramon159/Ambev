@@ -40,7 +40,7 @@ namespace Ambev.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponseWithPagination<IReadOnlyCollection<GetProductResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllProducts([FromQuery] GetAllProductsCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllProducts([FromQuery] GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(new ApiResponseWithPagination<IReadOnlyCollection<GetProductResponse>>
@@ -65,7 +65,7 @@ namespace Ambev.Api.Controllers
 
         public async Task<IActionResult> GetProduct([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            var request = new GetProductCommand() { Id = id };
+            var request = new GetProductQuery() { Id = id };
 
             var response = await _mediator.Send(request, cancellationToken);
 
@@ -147,7 +147,7 @@ namespace Ambev.Api.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllProductCategories(CancellationToken cancellationToken)
         {
-            var request = new GetAllCategoriesCommand();
+            var request = new GetAllCategoriesQuery();
             var response = await _mediator.Send(request, cancellationToken);
 
             return Ok(new ApiResponseWithData<IReadOnlyCollection<string>>
@@ -166,7 +166,7 @@ namespace Ambev.Api.Controllers
         [HttpGet("category/{category}")]
         [ProducesResponseType(typeof(ApiResponseWithPagination<IReadOnlyCollection<GetProductResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetProductsByCategory([FromRoute] string category, [FromQuery] GetAllProductsCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetProductsByCategory([FromRoute] string category, [FromQuery] GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             request.Filters.Add("category", category);
 

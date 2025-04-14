@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Application.Features.Products.Queries.GetProductWithPagination
 {
-    public class GetAllProductsHandler : IRequestHandler<GetAllProductsCommand, PaginedList<GetProductResponse>>
+    public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, PaginedList<GetProductResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryBase<Product> _productRepository;
@@ -19,7 +19,7 @@ namespace Ambev.Application.Features.Products.Queries.GetProductWithPagination
             _productRepository=productRepository;
         }
 
-        public async Task<PaginedList<GetProductResponse>> Handle(GetAllProductsCommand request, CancellationToken cancellationToken)
+        public async Task<PaginedList<GetProductResponse>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             var paginedResult = await _productRepository.GetAllAsync(
                 page: request.Page,

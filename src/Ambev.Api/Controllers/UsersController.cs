@@ -41,7 +41,7 @@ namespace Ambev.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponseWithPagination<IReadOnlyCollection<GetUserResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllUsers([FromQuery] GetAllUserCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllUsers([FromQuery] GetAllUsersQuery request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(new ApiResponseWithPagination<IReadOnlyCollection<GetUserResponse>>
@@ -67,7 +67,7 @@ namespace Ambev.Api.Controllers
 
         public async Task<IActionResult> GetUser([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            var request = new GetUserCommand() { Id = id };
+            var request = new GetUserQuery() { Id = id };
 
             var response = await _mediator.Send(request, cancellationToken);
 

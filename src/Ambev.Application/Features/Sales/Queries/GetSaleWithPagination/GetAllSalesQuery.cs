@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ambev.Application.Features.Sales.Queries.GetSaleWithPagination
 {
-    public class GetAllSalesCommand : QueryParameters, IRequest<PaginedList<GetSaleResponse>>
+    public class GetAllSalesQuery : QueryParameters, IRequest<PaginedList<GetSaleResponse>>
     {
     }
 }

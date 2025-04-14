@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Application.Features.Products.Queries.GetProduct
 {
-    public class GetProductHandler : IRequestHandler<GetProductCommand, GetProductResponse>
+    public class GetProductHandler : IRequestHandler<GetProductQuery, GetProductResponse>
     {
         private readonly IRepositoryBase<Product> _productRepository;
         private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ namespace Ambev.Application.Features.Products.Queries.GetProduct
             _mapper=mapper;
         }
 
-        public async Task<GetProductResponse> Handle(GetProductCommand request, CancellationToken cancellationToken)
+        public async Task<GetProductResponse> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
             var entity = await _productRepository.GetByIdAsync(request.Id, includes: p => p.Include(p => p.Rating), cancellationToken: cancellationToken);
             Guard.Against.NotFound(request.Id, entity);

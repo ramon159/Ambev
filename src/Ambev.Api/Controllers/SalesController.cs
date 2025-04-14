@@ -41,7 +41,7 @@ namespace Ambev.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponseWithPagination<IReadOnlyCollection<GetSaleResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllSales([FromQuery] GetAllSalesCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllSales([FromQuery] GetAllSalesQuery request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(new ApiResponseWithPagination<IReadOnlyCollection<GetSaleResponse>>
@@ -67,7 +67,7 @@ namespace Ambev.Api.Controllers
 
         public async Task<IActionResult> GetSale([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            var request = new GetSaleCommand() { Id = id };
+            var request = new GetSaleQuery() { Id = id };
 
             var response = await _mediator.Send(request, cancellationToken);
 

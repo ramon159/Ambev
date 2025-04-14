@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Application.Features.Sales.Queries.GetSale
 {
-    public class GetSaleHandle : IRequestHandler<GetSaleCommand, GetSaleResponse>
+    public class GetSaleHandle : IRequestHandler<GetSaleQuery, GetSaleResponse>
     {
 
         private readonly IRepositoryBase<Sale> _saleRepository;
@@ -19,7 +19,7 @@ namespace Ambev.Application.Features.Sales.Queries.GetSale
             _mapper=mapper;
         }
 
-        public async Task<GetSaleResponse> Handle(GetSaleCommand request, CancellationToken cancellationToken)
+        public async Task<GetSaleResponse> Handle(GetSaleQuery request, CancellationToken cancellationToken)
         {
             var entity = await _saleRepository.GetByIdAsync(
                 request.Id,

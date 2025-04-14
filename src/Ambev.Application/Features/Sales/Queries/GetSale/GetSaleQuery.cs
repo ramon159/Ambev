@@ -2,7 +2,7 @@
 
 namespace Ambev.Application.Features.Sales.Queries.GetSale
 {
-    public class GetSaleCommand : IRequest<GetSaleResponse>
+    public class GetSaleQuery : IRequest<GetSaleResponse>
     {
         public Guid Id { get; set; }
     }

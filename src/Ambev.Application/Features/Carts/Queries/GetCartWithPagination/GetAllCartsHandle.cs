@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Application.Features.Carts.Queries.GetCartWithPagination
 {
-    public class GetAllCartsHandle : IRequestHandler<GetAllCartsCommand, PaginedList<GetCartResponse>>
+    public class GetAllCartsHandle : IRequestHandler<GetAllCartsQuery, PaginedList<GetCartResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryBase<Cart> _cartRepository;
@@ -18,7 +18,7 @@ namespace Ambev.Application.Features.Carts.Queries.GetCartWithPagination
             _mapper=mapper;
             _cartRepository=cartRepository;
         }
-        public async Task<PaginedList<GetCartResponse>> Handle(GetAllCartsCommand request, CancellationToken cancellationToken)
+        public async Task<PaginedList<GetCartResponse>> Handle(GetAllCartsQuery request, CancellationToken cancellationToken)
         {
             var paginedResult = await _cartRepository.GetAllAsync(
                 page: request.Page,

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Ambev.Application.Features.Users.Queries.GetUsersWithPagination
 {
-    public class GetAllUsersHandler : IRequestHandler<GetAllUserCommand, PaginedList<GetUserResponse>>
+    public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, PaginedList<GetUserResponse>>
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryBase<User> _userRepository;
@@ -18,7 +18,7 @@ namespace Ambev.Application.Features.Users.Queries.GetUsersWithPagination
             _userRepository=userRepository;
         }
 
-        public async Task<PaginedList<GetUserResponse>> Handle(GetAllUserCommand request, CancellationToken cancellationToken)
+        public async Task<PaginedList<GetUserResponse>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
             var paginedResult = await _userRepository.GetAllAsync(
                 page: request.Page,

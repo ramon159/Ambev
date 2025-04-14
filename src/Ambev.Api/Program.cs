@@ -1,6 +1,7 @@
 
 using Ambev.Api.Middlewares;
 using Ambev.Api.OpenApi;
+using Ambev.Application;
 using Ambev.Application.Behaviours;
 using Ambev.Domain;
 using Ambev.Infrastructure;
@@ -17,12 +18,12 @@ using System.Reflection;
 namespace Ambev.Api
 {
     /// <summary>
-    /// 
+    /// Main class
     /// </summary>
     public class Program
     {
         /// <summary>
-        /// 
+        /// Constructor of the Main class
         /// </summary>
         /// <param name="args"></param>
         public static void Main(string[] args)
@@ -38,6 +39,7 @@ namespace Ambev.Api
             builder.UseServiceDefaults();
             builder.UseInfrastructure();
             builder.UseDomain();
+            builder.UseApplication();
 
             var app = builder.Build();
 
@@ -134,28 +136,10 @@ namespace Ambev.Api
             });
 
             services.AddExceptionHandler<CustomExceptionHandler>();
-            services.AddValidatorsFromAssembly(typeof(Domain.DependencyInjection).Assembly);
 
             services.AddScoped<TransactionMiddleware>();
 
-            services.AddAutoMapper((serviceProvider, cfg) =>
-            {
-                cfg.AddCollectionMappers();
-            }, typeof(Program).Assembly,
-                typeof(Application.DependencyInjection).Assembly
-                );
 
-            services.AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssemblies(
-                    Assembly.GetExecutingAssembly(),
-                    typeof(Program).Assembly,
-                    typeof(Application.DependencyInjection).Assembly
-                    );
-                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
-            });
 
         }
     }

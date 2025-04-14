@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Ambev.Application.Features.Users.Queries.GetUser
 {
-    public class GetUserHandler : IRequestHandler<GetUserCommand, GetUserResponse>
+    public class GetUserHandler : IRequestHandler<GetUserQuery, GetUserResponse>
     {
         private readonly IRepositoryBase<User> _userRepository;
         private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ namespace Ambev.Application.Features.Users.Queries.GetUser
             _mapper=mapper;
         }
 
-        public async Task<GetUserResponse> Handle(GetUserCommand request, CancellationToken cancellationToken)
+        public async Task<GetUserResponse> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
             var entity = await _userRepository.GetByIdAsync(request.Id, cancellationToken: cancellationToken);
             Guard.Against.NotFound(request.Id, entity);

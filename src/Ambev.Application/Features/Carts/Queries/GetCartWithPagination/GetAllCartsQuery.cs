@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ambev.Application.Features.Carts.Queries.GetCartWithPagination
 {
-    public class GetAllCartsCommand : QueryParameters, IRequest<PaginedList<GetCartResponse>>
+    public class GetAllCartsQuery : QueryParameters, IRequest<PaginedList<GetCartResponse>>
     {
     }
 }

@@ -39,7 +39,7 @@ namespace Ambev.Api.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAllCarts([FromQuery] GetAllCartsCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllCarts([FromQuery] GetAllCartsQuery request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
 
@@ -63,7 +63,7 @@ namespace Ambev.Api.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            var request = new GetCartCommand() { Id = id };
+            var request = new GetCartQuery() { Id = id };
 
             var response = await _mediator.Send(request, cancellationToken);
 
