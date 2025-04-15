@@ -6,13 +6,11 @@ namespace Ambev.Domain.Entities.Sales
     public class SaleItem : BaseEntity
     {
         public Guid SaleId { get; set; }
-        public Sale? Sale { get; set; }
         public int Quantity { get; set; }
         public decimal ProductPrice { get; set; } = 0;
         public decimal Discount { get; set; } = 0;
         public Guid ProductId { get; set; }
         public string ProductName { get; set; } = string.Empty;
-        public Product? Product { get; set; }
         public bool MatchesProduct(SaleItem item)
         {
             if (item == null) return false;

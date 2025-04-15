@@ -3,6 +3,7 @@ using Ambev.Domain.Interfaces.Infrastructure.Repositories;
 using Ambev.Infrastructure.Data;
 using Ambev.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Ambev.Infrastructure.Repositories
 {
@@ -18,10 +19,11 @@ namespace Ambev.Infrastructure.Repositories
             DbSet = context.Set<T>();
         }
 
-        public async Task<T?> GetByIdAsync(Guid id, Func<IQueryable<T>, IQueryable<T>>? includes = null, CancellationToken cancellationToken = default)
+        public async Task<T?> GetByIdAsync(Guid id, Func<IQueryable<T>, IQueryable<T>>? includes = null, bool isTracked = true, CancellationToken cancellationToken = default)
         {
             return await DbSet
                 .Including(includes)
+                .Tracking(isTracked)
                 .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
@@ -79,10 +81,22 @@ namespace Ambev.Infrastructure.Repositories
             var changes = await _context.SaveChangesAsync(cancellationToken);
             return changes > 0;
         }
+
+        public async Task SynchronizeAsync(
+            IEnumerable<T> entities,
+            Expression<Func<T, bool>> predicate,
+            Func<T, object> keySelector,
+            Action<T, T> updateAction,
+            CancellationToken cancellationToken = default
+        )
+        {
+            await _context.SynchronizeAsync(entities, predicate, keySelector, updateAction, cancellationToken);
+        }
         public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await _context.SaveChangesAsync(cancellationToken) > 0;
         }
+
 
     }
 }

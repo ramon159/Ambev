@@ -1,5 +1,6 @@
 ﻿using Ambev.Infrastructure.Helpers;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.Infrastructure.Extensions
 {
@@ -221,6 +222,11 @@ namespace Ambev.Infrastructure.Extensions
             return query;
         }
 
+        public static IQueryable<T> Tracking<T>(this IQueryable<T> query, bool isTracked = true)
+                where T : class
+        {
+            return isTracked ? query : query.AsNoTracking();
+        }
         public static IQueryable<T> Selecting<T>(this IQueryable<T> query, Func<IQueryable<T>, IQueryable<T>>? selectors)
         {
             if (selectors != null) query = selectors(query);

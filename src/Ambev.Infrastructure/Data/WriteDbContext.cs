@@ -1,5 +1,6 @@
 ﻿using Ambev.Domain.Common.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Ambev.Infrastructure.Data
@@ -62,5 +63,6 @@ namespace Ambev.Infrastructure.Data
                 builder.Entity(entityType).ToTable(entityType.Name);
             }
         }
+
     }
 }
